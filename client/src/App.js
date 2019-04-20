@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import './scss/App.scss';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Snap from "./pages/Snap";
 import NoMatch from "./pages/NoMatch";
@@ -14,7 +15,7 @@ function App() {
           <Nav />
           <main>
             <Switch>
-              <Route exact path="/" component={Home} />
+              <Route exact path="/" component={Login} />
               <Route exact path="/home" component={Home} />
               <Route exact path="/snap/:id" component={Snap} />
               <Route component={NoMatch} />
