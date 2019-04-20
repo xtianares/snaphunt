@@ -1,0 +1,116 @@
+/* ----------------------------------------------------------------------------
+    Project Styles
+----------------------------------------------------------------------------- */
+html {
+  min-height: 100%;
+  position: relative;
+}
+body {
+  height: 100vh;
+  font-family: 'Open Sans', 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
+  color: #ccc;
+  background-color: #56A8E3;
+  // background-image: linear-gradient(to right bottom, #6c6bd1, #6d77d7, #7083dc, #758fe0, #7b9ae3, #73a7ec, #6db3f3, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+  background-size: cover;
+  background-position: 50% 50%;
+  background-attachment: fixed;
+  overflow-y: scroll;
+}
+body {
+  // background-color: #383838;
+  background-color: #fefefe;
+}
+.container {
+  max-width: 1200px;
+}
+.container-fluid.but-fixed {
+  max-width: 1230px;
+}
+header {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #000;
+  background-image: linear-gradient(15deg, #23A6D5, #23D5AB);
+
+  .navbar-brand {
+    font-family: 'Roboto Slab', 'Open Sans', 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+  }
+  .navbar-nav {
+    font-weight: 300;
+  }
+}
+header .title {
+  font-size: 1.5rem;
+}
+main > .container, main > .container-fluid {
+  padding-top: 60px;
+}
+h1 {
+  font-family: 'Roboto Slab', 'Open Sans', 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
+  font-weight: 300 !important;
+}
+.image-container {
+  flex-flow: row wrap;
+  max-width: 900px;
+  padding-bottom: 20px;
+}
+.image-container .thumb {
+  max-width: 120px;
+  height: 120px;
+  flex: 1 0 100%;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  border-radius: 50%;
+  cursor: pointer;
+  transform: rotate(0deg);
+  transition: border-radius linear .2s, transform linear .2s;
+  background-color: transparent;
+  border: 0;
+}
+.image-container .thumb:hover {
+  border-radius: 5px;
+  transform: rotate(360deg) scale(1.3);
+}
+footer {
+  border-top: 1px dotted #777;
+  font-weight: 300 !important;
+}
+footer a {
+  color: inherit;
+}
+
+/* ----------------------------------------------------------------------------
+    Page Media Queries
+----------------------------------------------------------------------------- */
+
+@media (min-width: 576px) {
+  .container-fluid.but-fixed {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .card-deck .card {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: calc(100% - 30px);
+  }
+
+}
+@media (min-width: 768px) {
+  header .title {
+    text-align: left;
+  }
+  header .score {
+    text-align: right;
+  }
+}
+@media (min-width: 992px) {
+
+}
+@media (min-width: 1200px) {
+
+}
