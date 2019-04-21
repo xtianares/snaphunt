@@ -2,9 +2,12 @@ import React, { Component } from "react";
 import { Container, Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import API from "../utils/API";
 
-class Login extends Component {
+class Signup extends Component {
   state = {
     loggedIn: false,
+    firstname: "",
+    lastname: "",
+    email: "",
     username: "",
     password: ""
   };
@@ -31,15 +34,25 @@ class Login extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.username && this.state.password) {
-      API.loginUser({
+    if (this.state.firstname && this.state.lastname && this.state.email && this.state.username && this.state.password) {
+      API.saveUser({
+          fistname: this.state.firstname,
+          lastname: this.state.lastname,
+          email: this.state.email,
           username: this.state.username,
           password: this.state.password
       })
         .then(userData => {
           console.log(userData.data);
           if(userData.data != null){
-            this.setState({ loggedIn: true, username: "", password: ""});
+            this.setState({
+              loggedIn: true, 
+              firstname: "",
+              lastName: "",
+              email: "",
+              username: "",
+              password: ""
+            });
             this.checkLogin();
           }
           // if user does not exist
@@ -57,8 +70,20 @@ class Login extends Component {
       <Container>
         <Row>
           <Col size="md-6 sm-12">
-            <h1 className="text-center">Login</h1>
-            <Form onSubmit={this.handleFormSubmit} action="/api/login">
+            <h1 className="text-center">Signup</h1>
+            <Form onSubmit={this.handleFormSubmit} action="/api/signup">
+              <FormGroup>
+                <Label for="firstname">First Name</Label>
+                <Input onChange={this.handleInputChange} value={this.state.firstname} type="text" name="firstname" id="firstname" placeholder="First Name" />
+              </FormGroup>
+              <FormGroup>
+                <Label for="lastname">Last Name</Label>
+                <Input onChange={this.handleInputChange} value={this.state.lastname} type="text" name="lastname" id="lastname" placeholder="Last Name" />
+              </FormGroup>
+              <FormGroup>
+                <Label for="email">Email</Label>
+                <Input onChange={this.handleInputChange} value={this.state.email} type="email" name="email" id="email" placeholder="your@email.com" />
+              </FormGroup>
               <FormGroup>
                 <Label for="username">Username</Label>
                 <Input onChange={this.handleInputChange} value={this.state.username} type="text" name="username" id="username" placeholder="username" />
@@ -68,7 +93,7 @@ class Login extends Component {
                 <Input onChange={this.handleInputChange} value={this.state.password} type="password" name="password" id="password" placeholder="password" />
               </FormGroup>
               <FormGroup className="text-center">
-                <Button type="submit">Login</Button>
+                <Button type="submit">Signup</Button>
               </FormGroup>
             </Form>
           </Col>
@@ -78,4 +103,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Signup;
