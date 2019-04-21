@@ -12,6 +12,7 @@ const userSeed = [
   {
     username: "xtian",
     firstName: "Christian",
+    email: "xtian@test.com",
     lastName: "Castanares",
     password: "111111",
     joinDate: new Date(Date.now())
@@ -19,6 +20,7 @@ const userSeed = [
   {
     username: "jstrub",
     firstName: "Jason",
+    email: "jason@test.com",
     lastName: "Strub",
     password: "111111",
     joinDate: new Date(Date.now())

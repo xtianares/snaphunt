@@ -23,7 +23,9 @@ export default {
   },
   // Gets the user with the given username
   loginUser: function(loginData) {
-    return axios.get("/api/login" + loginData);
+    let { username, password } = loginData;
+    // console.log(username, password)
+    return axios.get(`/api/login/?username=${username}&password=${password}`);
   },
   // Gets the user with the given id
   getUser: function(id) {
