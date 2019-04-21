@@ -1,3 +1,4 @@
 module.exports = {
-  User: require("./snapUser")
+  User: require("./user"),
+  Snap: require("./snap")
 };

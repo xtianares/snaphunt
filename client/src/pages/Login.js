@@ -15,17 +15,11 @@ class Login extends Component {
 
   checkLogin = () => {
     if (!this.state.loggedIn) {
-      console.log("Not Logged In")
+      console.log("You're Not Logged In")
     }
     else {
-      console.log("Logged In? " + this.state.loggedIn)
+      console.log("You Are Now Logged In - " + this.state.loggedIn)
     }
-
-    // API.checkLogin()
-    //   .then(res =>
-    //     this.setState({ loggedIn: true, username: "", password: ""})
-    //   )
-    //   .catch(err => console.log(err));
   };
 
   handleInputChange = event => {
@@ -38,18 +32,26 @@ class Login extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
     if (this.state.username && this.state.password) {
-      // code below will need to be on the .then form API
-      console.log("Username? " + this.state.username)
-      console.log("Password? " + this.state.password)
-      this.setState({ loggedIn: true, username: "", password: ""})
-      this.checkLogin();
-
-      // API.login({
-      //   username: this.state.username,
-      //   password: this.state.password
-      // })
-      //   .then(res => console.log("Logged In"))
-      //   .catch(err => console.log(err));
+      API.loginUser({
+        params: {
+          username: this.state.username,
+          password: this.state.password
+        }
+      })
+        .then(userData => {
+          // console.log(data);
+          if(userData){
+            console.log(userData);
+            this.setState({ loggedIn: true, username: "", password: ""});
+            this.checkLogin();
+          }
+          // if user does not exist
+          else {
+            let err = "Please check your username and password.";
+            console.log(err);
+          }
+        })
+        .catch(err => console.log(err));
     }
   };
 
@@ -59,7 +61,7 @@ class Login extends Component {
         <Row>
           <Col size="md-6 sm-12">
             <h1 className="text-center">Login</h1>
-              <Form onSubmit={this.handleFormSubmit} action="test">
+              <Form onSubmit={this.handleFormSubmit} action="/api/login">
                 <FormGroup>
                   <Label for="username">Username</Label>
                   <Input onChange={this.handleInputChange} value={this.state.username} type="text" name="username" id="username" placeholder="username" />
