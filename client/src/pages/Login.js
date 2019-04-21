@@ -15,10 +15,10 @@ class Login extends Component {
 
   checkLogin = () => {
     if (!this.state.loggedIn) {
-      console.log("You're Not Logged In")
+      console.log("Logged In Status: " + this.state.loggedIn)
     }
     else {
-      console.log("You Are Now Logged In - " + this.state.loggedIn)
+      console.log("Logged In Status: " + this.state.loggedIn)
     }
   };
 
@@ -37,7 +37,7 @@ class Login extends Component {
           password: this.state.password
       })
         .then(userData => {
-          console.log(userData.data);
+          // console.log(userData.data);
           if(userData.data != null){
             this.setState({ loggedIn: true, username: "", password: ""});
             this.checkLogin();

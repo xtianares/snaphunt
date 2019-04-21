@@ -5,8 +5,8 @@ import API from "../utils/API";
 class Signup extends Component {
   state = {
     loggedIn: false,
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     email: "",
     username: "",
     password: ""
@@ -18,10 +18,10 @@ class Signup extends Component {
 
   checkLogin = () => {
     if (!this.state.loggedIn) {
-      console.log("You're Not Logged In")
+      console.log("Logged In Status: " + this.state.loggedIn)
     }
     else {
-      console.log("You Are Now Logged In - " + this.state.loggedIn)
+      console.log("Logged In Status: " + this.state.loggedIn)
     }
   };
 
@@ -34,20 +34,20 @@ class Signup extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.firstname && this.state.lastname && this.state.email && this.state.username && this.state.password) {
+    if (this.state.firstName && this.state.lastName && this.state.email && this.state.username && this.state.password) {
       API.saveUser({
-          fistname: this.state.firstname,
-          lastname: this.state.lastname,
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
           email: this.state.email,
           username: this.state.username,
           password: this.state.password
       })
         .then(userData => {
-          console.log(userData.data);
-          if(userData.data != null){
+          // console.log(userData.data);
+          if(userData.data != null && userData.data.errmsg == null){
             this.setState({
-              loggedIn: true, 
-              firstname: "",
+              loggedIn: true,
+              firstName: "",
               lastName: "",
               email: "",
               username: "",
@@ -57,7 +57,7 @@ class Signup extends Component {
           }
           // if user does not exist
           else {
-            let err = "Please check your username and password.";
+            let err = "Username already taken!";
             console.log(err);
           }
         })
@@ -74,11 +74,11 @@ class Signup extends Component {
             <Form onSubmit={this.handleFormSubmit} action="/api/signup">
               <FormGroup>
                 <Label for="firstname">First Name</Label>
-                <Input onChange={this.handleInputChange} value={this.state.firstname} type="text" name="firstname" id="firstname" placeholder="First Name" />
+                <Input onChange={this.handleInputChange} value={this.state.firstName} type="text" name="firstName" id="firstname" placeholder="First Name" />
               </FormGroup>
               <FormGroup>
                 <Label for="lastname">Last Name</Label>
-                <Input onChange={this.handleInputChange} value={this.state.lastname} type="text" name="lastname" id="lastname" placeholder="Last Name" />
+                <Input onChange={this.handleInputChange} value={this.state.lastName} type="text" name="lastName" id="lastname" placeholder="Last Name" />
               </FormGroup>
               <FormGroup>
                 <Label for="email">Email</Label>
