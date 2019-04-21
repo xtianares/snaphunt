@@ -3,11 +3,10 @@ const db = require("../models");
 // Defining methods for the snapController
 module.exports = {
   login: function(req, res) {
-    console.log(req.body);
+    // console.log(req.query);
     db.User
-      .findOne(req.body)
+      .findOne(req.query)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   }
-
 };

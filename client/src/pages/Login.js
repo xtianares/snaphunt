@@ -33,15 +33,12 @@ class Login extends Component {
     event.preventDefault();
     if (this.state.username && this.state.password) {
       API.loginUser({
-        params: {
           username: this.state.username,
           password: this.state.password
-        }
       })
         .then(userData => {
-          // console.log(data);
-          if(userData){
-            console.log(userData);
+          console.log(userData.data);
+          if(userData.data != null){
             this.setState({ loggedIn: true, username: "", password: ""});
             this.checkLogin();
           }
