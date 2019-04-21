@@ -10,15 +10,16 @@ class Login extends Component {
   };
 
   componentDidMount() {
-    // this.checkLogin();
+    this.checkLogin();
   }
 
   checkLogin = () => {
-    API.checkLogin()
-      .then(res =>
-        this.setState({ books: res.data, username: "", password: ""})
-      )
-      .catch(err => console.log(err));
+    if (!this.state.loggedIn) {
+      console.log("You're Not Logged In")
+    }
+    else {
+      console.log("You Are Now Logged In - " + this.state.loggedIn)
+    }
   };
 
   handleInputChange = event => {
@@ -30,12 +31,26 @@ class Login extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.title && this.state.author) {
-      API.checkLogin({
-        username: this.state.username,
-        password: this.state.password
+    if (this.state.username && this.state.password) {
+      API.loginUser({
+        params: {
+          username: this.state.username,
+          password: this.state.password
+        }
       })
-        .then(res => console.log("Logged In"))
+        .then(userData => {
+          // console.log(data);
+          if(userData){
+            console.log(userData);
+            this.setState({ loggedIn: true, username: "", password: ""});
+            this.checkLogin();
+          }
+          // if user does not exist
+          else {
+            let err = "Please check your username and password.";
+            console.log(err);
+          }
+        })
         .catch(err => console.log(err));
     }
   };
@@ -46,16 +61,16 @@ class Login extends Component {
         <Row>
           <Col size="md-6 sm-12">
             <h1 className="text-center">Login</h1>
-              <Form>
+              <Form onSubmit={this.handleFormSubmit} action="/api/login">
                 <FormGroup>
                   <Label for="username">Username</Label>
-                  <Input type="email" name="username" id="username" placeholder="username" />
+                  <Input onChange={this.handleInputChange} value={this.state.username} type="text" name="username" id="username" placeholder="username" />
                 </FormGroup>
                 <FormGroup>
                   <Label for="password">Password</Label>
-                  <Input type="password" name="password" id="password" placeholder="password" />
+                  <Input onChange={this.handleInputChange} value={this.state.password} type="password" name="password" id="password" placeholder="password" />
                 </FormGroup>
-                <Button>Login</Button>
+                <Button type="submit">Login</Button>
               </Form>
           </Col>
         </Row>
