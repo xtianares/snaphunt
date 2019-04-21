@@ -17,7 +17,7 @@ function App() {
             <Switch>
               <Route exact path="/" component={Login} />
               <Route exact path="/home" component={Home} />
-              <Route exact path="/snap/:id" component={Snap} />
+              <Route exact path="/snaps/:id" component={Snap} />
               <Route component={NoMatch} />
             </Switch>
           </main>
