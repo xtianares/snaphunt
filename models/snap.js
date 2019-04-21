@@ -11,7 +11,11 @@ const snapSchema = new Schema ({
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User"
-  }
+  },
+  likes: [{
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  }]
 });
 
 const Snap = mongoose.model("Snap", snapSchema);
