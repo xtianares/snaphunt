@@ -12,49 +12,15 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    this.loadBooks();
+    console.log("it mounted");
   }
-
-  loadBooks = () => {
-    API.getBooks()
-      .then(res =>
-        this.setState({ books: res.data, title: "", author: "", synopsis: "" })
-      )
-      .catch(err => console.log(err));
-  };
-
-  deleteBook = id => {
-    API.deleteBook(id)
-      .then(res => this.loadBooks())
-      .catch(err => console.log(err));
-  };
-
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
-  };
-
-  handleFormSubmit = event => {
-    event.preventDefault();
-    if (this.state.title && this.state.author) {
-      API.saveBook({
-        title: this.state.title,
-        author: this.state.author,
-        synopsis: this.state.synopsis
-      })
-        .then(res => this.loadBooks())
-        .catch(err => console.log(err));
-    }
-  };
 
   render() {
     return (
       <Container>
         <Row>
           <Col size="md-6 sm-12">
-            <h3>No Results to Display</h3>
+            <h1 className="text-center">Homepage, nothing here yet</h1>
           </Col>
         </Row>
       </Container>
