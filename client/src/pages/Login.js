@@ -1,12 +1,41 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import API from "../utils/API";
+import { Redirect } from "react-router-dom";
+
+function readCookie(name) {
+    var nameEQ = escape(name) + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return unescape(c.substring(nameEQ.length, c.length));
+    }
+    return null;
+}
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
 
 class Login extends Component {
   state = {
-    loggedIn: false,
+    isAuthenticated: readCookie("isAuthenticated") || false,
+    redirectToReferrer: false,
     username: "",
     password: ""
+  };
+
+  login = () => {
+    setCookie("isAuthenticated", "true");
+    this.setState({
+      isAuthenticated: readCookie("isAuthenticated"),
+      redirectToReferrer: true,
+      username: "",
+      password: ""
+    });
   };
 
   componentDidMount() {
@@ -15,10 +44,10 @@ class Login extends Component {
 
   checkLogin = () => {
     if (!this.state.loggedIn) {
-      console.log("Logged In Status: " + this.state.loggedIn)
+      console.log("Logged In Status: " + this.state.isAuthenticated)
     }
     else {
-      console.log("Logged In Status: " + this.state.loggedIn)
+      console.log("Logged In Status: " + this.state.isAuthenticated)
     }
   };
 
@@ -39,7 +68,7 @@ class Login extends Component {
         .then(userData => {
           // console.log(userData.data);
           if(userData.data != null){
-            this.setState({ loggedIn: true, username: "", password: ""});
+            this.login();
             this.checkLogin();
           }
           // if user does not exist
@@ -53,6 +82,9 @@ class Login extends Component {
   };
 
   render() {
+    let { redirectToReferrer } = this.state;
+    if (redirectToReferrer) return <Redirect to={{ pathname: "/" }} />;
+
     return (
       <Container>
         <Row>

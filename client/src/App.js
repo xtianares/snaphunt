@@ -8,6 +8,7 @@ import Snap from "./pages/Snap";
 import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -16,10 +17,12 @@ function App() {
           <Nav />
           <main>
             <Switch>
-              <Route exact path="/" component={Login} />
+              <Route exact path="/" component={Home} />
+              <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
-              <Route exact path="/home" component={Home} />
-              <Route exact path="/snaps/:id" component={Snap} />
+              <PrivateRoute path="/snaps" component={Snap} />
+              <Route exact path="/snaps" component={Snap} />
+              <Route exact path="/snap/:id" component={Snap} />
               <Route component={NoMatch} />
             </Switch>
           </main>
