@@ -1,27 +1,24 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const snapSchema = new Schema ({
-  url: { type: String, required: true },
+const huntSchema = new Schema ({
+  huntName: { type: String, required: true },
   location: {
     lat: { type: Number, required: true },
     lng: { type: Number, required: true }
   },
   createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User"
   },
-  likes: [{
+  snaps: [{
     type: Schema.Types.ObjectId,
-    ref: "User"
-  }],
-  hunts: [{
-    type: Schema.Types.ObjectId,
-    ref: "Hunt"
+    ref: "Snap"
   }]
 });
 
-const Snap = mongoose.model("Snap", snapSchema);
+const Hunt = mongoose.model("Hunt", huntSchema);
 
-module.exports = Snap;
+module.exports = Hunt;

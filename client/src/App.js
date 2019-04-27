@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
-import Snap from "./pages/Snap";
+import Capture from "./pages/Capture";
+import Snaps from "./pages/Snaps";
 import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
@@ -20,9 +21,9 @@ function App() {
               <Route exact path="/" component={Home} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
-              <PrivateRoute path="/snaps" component={Snap} />
-              <Route exact path="/snaps" component={Snap} />
-              <Route exact path="/snap/:id" component={Snap} />
+              <PrivateRoute path="/snaps" component={Snaps} />
+              <Route exact path="/capture" component={Capture} />
+              <Route exact path="/snap/:id" component={Snaps} />
               <Route component={NoMatch} />
             </Switch>
           </main>
