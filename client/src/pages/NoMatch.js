@@ -4,8 +4,8 @@ import { Container, Row, Col } from 'reactstrap';
 function NoMatch() {
   return (
     <Container>
-      <Row>
-        <Col size="md-12" >
+      <Row className="justify-content-md-center">
+        <Col md="8" sm="12">
           <h1 className="text-center">404 Page Not Found</h1>
         </Col>
       </Row>

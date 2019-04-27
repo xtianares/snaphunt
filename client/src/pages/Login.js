@@ -87,8 +87,8 @@ class Login extends Component {
 
     return (
       <Container>
-        <Row>
-          <Col size="md-6 sm-12">
+        <Row className="justify-content-md-center">
+          <Col lg="6" md="8" sm="12">
             <h1 className="text-center">Login</h1>
             <Form onSubmit={this.handleFormSubmit} action="/api/login">
               <FormGroup>

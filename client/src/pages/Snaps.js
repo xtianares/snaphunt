@@ -18,8 +18,8 @@ class Snap extends Component {
   render() {
     return (
       <Container>
-        <Row>
-          <Col size="md-6 sm-12">
+        <Row className="justify-content-md-center">
+          <Col md="8" sm="12">
             <h1 className="text-center">Snaps, nothing here yet</h1>
           </Col>
         </Row>
