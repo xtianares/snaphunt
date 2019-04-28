@@ -68,7 +68,7 @@ class Signup extends Component {
           firstName: this.state.firstName,
           lastName: this.state.lastName,
           email: this.state.email,
-          username: this.state.username,
+          username: (this.state.username).toLowerCase(),
           password: this.state.password
       })
         .then(userData => {
