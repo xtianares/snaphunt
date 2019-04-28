@@ -1,10 +1,28 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import API from "../utils/API";
+import { Redirect } from "react-router-dom";
+
+function readCookie(name) {
+    var nameEQ = escape(name) + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return unescape(c.substring(nameEQ.length, c.length));
+    }
+    return null;
+}
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
 
 class Signup extends Component {
   state = {
-    loggedIn: false,
+    isAuthenticated: false,
     firstName: "",
     lastName: "",
     email: "",
@@ -16,12 +34,23 @@ class Signup extends Component {
     this.checkLogin();
   }
 
+  login = (userData) => {
+    setCookie("isAuthenticated", "true");
+    setCookie("authId", userData._id);
+    this.setState({
+      isAuthenticated: readCookie("isAuthenticated"),
+      redirectToReferrer: true,
+      username: "",
+      password: ""
+    });
+  };
+
   checkLogin = () => {
-    if (!this.state.loggedIn) {
-      console.log("Logged In Status: " + this.state.loggedIn)
+    if (!this.state.isAuthenticated) {
+      console.log("Logged In Status: " + this.state.isAuthenticated)
     }
     else {
-      console.log("Logged In Status: " + this.state.loggedIn)
+      console.log("Logged In Status: " + this.state.isAuthenticated)
     }
   };
 
@@ -45,15 +74,17 @@ class Signup extends Component {
         .then(userData => {
           // console.log(userData.data);
           if(userData.data != null && userData.data.errmsg == null){
+            console.log(userData.data);
+            this.login(userData.data);
+            this.checkLogin();
             this.setState({
-              loggedIn: true,
+              isAuthenticated: true,
               firstName: "",
               lastName: "",
               email: "",
               username: "",
               password: ""
             });
-            this.checkLogin();
           }
           // if user does not exist
           else {
@@ -66,6 +97,7 @@ class Signup extends Component {
   };
 
   render() {
+    if (this.state.isAuthenticated) return <Redirect to={{ pathname: "/" }} />;
     return (
       <Container>
         <Row className="justify-content-md-center">
