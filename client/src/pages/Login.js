@@ -28,8 +28,9 @@ class Login extends Component {
     password: ""
   };
 
-  login = () => {
+  login = (userData) => {
     setCookie("isAuthenticated", "true");
+    setCookie("authId", userData._id);
     this.setState({
       isAuthenticated: readCookie("isAuthenticated"),
       redirectToReferrer: true,
@@ -68,7 +69,7 @@ class Login extends Component {
         .then(userData => {
           // console.log(userData.data);
           if(userData.data != null){
-            this.login();
+            this.login(userData.data);
             this.checkLogin();
           }
           // if user does not exist
@@ -101,6 +102,9 @@ class Login extends Component {
               </FormGroup>
               <FormGroup className="text-center">
                 <Button type="submit">Login</Button>
+              </FormGroup>
+              <FormGroup className="sign-up text-center">
+                Don't yet have an account? <a href="/signup/">Sign up here!</a>
               </FormGroup>
             </Form>
           </Col>

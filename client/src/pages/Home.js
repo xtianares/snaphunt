@@ -11,9 +11,9 @@ class Home extends Component {
     synopsis: ""
   };
 
-  componentDidMount() {
-    console.log("it mounted");
-  }
+  // componentDidMount() {
+  //   console.log("it mounted");
+  // }
 
   render() {
     return (
