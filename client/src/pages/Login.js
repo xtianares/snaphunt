@@ -63,7 +63,7 @@ class Login extends Component {
     event.preventDefault();
     if (this.state.username && this.state.password) {
       API.loginUser({
-          username: this.state.username,
+          username: (this.state.username).toLowerCase(),
           password: this.state.password
       })
         .then(userData => {
