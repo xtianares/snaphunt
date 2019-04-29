@@ -26,7 +26,6 @@ class Nav extends Component {
     return (
       <header>
         <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-          <div className="container">
             <a href="/" className="navbar-brand d-flex align-items-center">
               <i data-feather="camera"></i>&nbsp;SnapHunt
             </a>
@@ -39,7 +38,6 @@ class Nav extends Component {
                 {this.state.isAuthenticated ? <li className="nav-item"><a className="nav-link" href="/" onClick={this.logout}>Logout</a></li> : null}
               </ul>
             </div>
-          </div>
         </nav>
       </header>
     );

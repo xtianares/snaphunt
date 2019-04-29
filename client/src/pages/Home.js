@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from 'reactstrap';
+import GoogleMap from "../components/Map";
 import API from "../utils/API";
 
 
@@ -17,13 +18,7 @@ class Home extends Component {
 
   render() {
     return (
-      <Container>
-        <Row className="justify-content-md-center">
-          <Col md="8" sm="12">
-            <h1 className="text-center">Homepage, nothing here yet</h1>
-          </Col>
-        </Row>
-      </Container>
+      <GoogleMap />
     );
   }
 }

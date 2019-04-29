@@ -12,7 +12,7 @@ class Capture extends Component {
     huntId: ""  // need to grab this
   };
 
-  componentDidMount() {
+  componentDidMount = () => {
     console.log("it mounted");
     this.getLocation();
   }
