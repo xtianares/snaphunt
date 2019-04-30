@@ -63,17 +63,10 @@ const app = new Clarifai.App({
 
 // This is the prediction function for getting the tags to compare the photos
 
-// app.models.predict(Clarifai.GENERAL_MODEL, 'https://lh3.googleusercontent.com/9_Uqa0-Hdlel1T10CJrDkaQbs8WIGb30HmaNsAUWMp9_xeT242ae8qE8hyoQOcAacWLzrrAyQCPE0Hi7mBSZjGiSk9X3Doq93h6FK2MWByf0Xdkv3NKJYz0-MqlfOx6jO4qh0qTz1FGv3hdjUhvin4eEEgtxXGM8a0avwyzpwI2fZ6yET6QS-m33HTw3k2ueMPFYAZ97et8jpTvtInvuloyiZ2g95WdiGwnhxuo7wxFrsEqGb8yu7GbT_MUMbVBsKM8HJgnxIOohV4QJkOL8wTmttujW6sr9oM6VstbkrVTisqHkgyiqES-OZPZFYNdIxtCc_-9Eb0_tvBCFwemTFC7dtMkbSE7bQ4JlVS8a0jQHsRMfY6hSowU7U6KK4aXN0pzxnrYqpC9j2KjpTYkyNmdPidKUQzpKZAL1VpYlmYWR_AoXLLhP7FHf1IqzHPNxnlUbICEiOM1x42QDNSEOu3x_zUA5sDsz7TNdqt4QWfKWxG1e015mDSGOe0HVKtxSaP4Lw5NNdmYei6S6r13jQO3qFjYw2v6SRIDzTNh_x2SE4VtreO83q37GewLbC4v7ZPMnGOlhoQyPnNCZLYFYNHvQhhLAT4_sJlLF6WeUyf4Be9ZCvo4BxkmD7YTa2Vkfyr3UMqsUL0VraN8ddbi4T1WUcRJRNmQ=w1355-h1805-no', { maxConcepts: 10 })
-//   .then(response => {
-//     console.log(response['outputs'][0]['data']['concepts']);
-//     })
-//   .catch(error => {
-//     console.log(error);
-//   });
 
 app.models.initModel({id: Clarifai.GENERAL_MODEL, version: "aa7f35c01e0642fda5cf400f543e7c40"})
       .then(generalModel => {
-        return generalModel.predict("https://lh3.googleusercontent.com/fq9VvAk0QwMPj3hO0-qOT96ngak95jwrjpa3TE52K-pDfSNlzXuf0JULFpHU2fF7JF_brE9qfqXFOJxMB84X3KJ_tk6RvkA8080HryCHnQPdDMP0Jf0uO1VHbvhteVodz8o2_sn-KDirlihNwjL4hDnofnaq6JvRe4SO-TkMOCQ3jt19Fo0HugBhg06RF7pGwcVJMjTZEmGh5g2XsW05s5VWK0Qw_CkGPlSJHYUQ720l9HfB8T-iK2X6PydY3l5wKfwG5K8gMy8cuS6zbgyqadViHH8vkq-xzgxwn2Szwln_xOUTqtJM928wh73kAXlzkZci6V0LsN41Z8bxl3YrWTI0AuxbkqNepfrorK7b3zyPj6W6iyBQwUojsJvB6dNTxw9tkiIGWdJTKN_PrF1ITqCYxGHyhyBMCDNltK6anp4s5j_asGNC3A8XwkMdXqIRce5CKhjyfYTxEAtYEvAGuSPzS2afFQHIclXGf00l3p8Vv30Eq9mSgVaJsLCZhpXeQTOFOlw6t2WAqDOVC2sc9i10sjPFJF5F-draB5_NPdri3CfSgI9msy4rzDvvyEFRNeL3fEawR38WmTLTeDjACk_sUgw3kqyyEjHq6S6bR7A7BSck0lJGEJmVaa0eVC0PTV-gc7I4xtBVS5b9qs7gyWbvp02lSzs=w2408-h1805-no", { maxConcepts: 5 });
+        return generalModel.predict("https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Shaqi_jrvej.jpg/1200px-Shaqi_jrvej.jpg", { maxConcepts: 5 });
       })
       .then(response => {
         var concepts = response['outputs'][0]['data']['concepts'];
