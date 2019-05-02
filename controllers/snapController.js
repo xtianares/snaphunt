@@ -1,4 +1,9 @@
 const db = require("../models");
+const Clarifai = require('clarifai');
+
+const app = new Clarifai.App({
+  apiKey: process.env.REACT_APP_CLARIFAI_API_KEY
+});
 
 // Defining methods for the snapController
 module.exports = {
@@ -22,10 +27,24 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {
-    db.Snap
-      .create(req.body)
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+    const {imageUrl, imageData, location, authId, huntId} = req.body;
+    app.inputs.create({
+      base64: imageData,
+      geo: { latitude: location.lat, longitude: location.lng },
+    }).then(
+      function(response) {
+        console.log(response);
+        console.log('Upload successful');
+        // this will need to be inside the clarifai .then statement
+        db.Snap
+          .create(req.body) // will need to be an object
+          .then(dbModel => res.json(dbModel))
+          .catch(err => res.status(422).json(err));
+      },
+      function(err) {
+        console.log('there was an error');
+      }
+    );
   },
   update: function(req, res) {
     db.Snap
