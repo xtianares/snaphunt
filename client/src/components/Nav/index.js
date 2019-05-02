@@ -1,13 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 
-function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+ d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
 class Nav extends Component {
   state = {
     isAuthenticated: this.props.isAuthenticated || false
@@ -18,8 +11,8 @@ class Nav extends Component {
   }
 
   logout = () => {
-    setCookie("isAuthenticated", false, -1);
-    setCookie("authId", false, -1);
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("authId");
   }
 
   render() {
@@ -33,7 +26,6 @@ class Nav extends Component {
             <div className="collapse navbar-collapse" id="navbarCollapse">
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item"><a className="nav-link" href="/">Home</a></li>
-                <li className="nav-item"><a className="nav-link" href="/map/">Map</a></li>
                 <li className="nav-item"><a className="nav-link" href="/snaps/">Snaps</a></li>
                 {this.state.isAuthenticated ? <li className="nav-item"><a className="nav-link" href="/" onClick={this.logout}>Logout</a></li> : null}
               </ul>
