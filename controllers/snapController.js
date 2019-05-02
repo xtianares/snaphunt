@@ -1,7 +1,8 @@
 const db = require("../models");
 const Clarifai = require('clarifai');
+require('dotenv').config();
 
-const app = new Clarifai.App({
+const ClarifaiApp = new Clarifai.App({
   apiKey: process.env.REACT_APP_CLARIFAI_API_KEY
 });
 
@@ -27,17 +28,26 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {
-    const {imageUrl, imageData, location, authId, huntId} = req.body;
-    app.inputs.create({
-      base64: imageData,
+    const {imageData, location, authId, huntId} = req.body;
+    // console.log(req.body);
+    ClarifaiApp.inputs.create({
+      base64: imageData.replace('data:image/jpeg;base64,', ''), // needed to remove modify the base64 code
       geo: { latitude: location.lat, longitude: location.lng },
     }).then(
       function(response) {
-        console.log(response);
         console.log('Upload successful');
+        console.log(response['0']);
+        console.log(response['0'].imageUrl);
+        const imageUrl = response['0'].imageUrl,
+              snapData = {
+                url: imageUrl,
+                location: location,
+                userId: authId
+              };
+        console.log(imageUrl);
         // this will need to be inside the clarifai .then statement
         db.Snap
-          .create(req.body) // will need to be an object
+          .create(snapData) // will need to be an object
           .then(dbModel => res.json(dbModel))
           .catch(err => res.status(422).json(err));
       },
