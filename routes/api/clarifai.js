@@ -41,34 +41,34 @@ const app = new Clarifai.App({
 
 // this is the function to search for the specific photos with geo tags
 
-// app.inputs.search(
-//   { input: {
-//     geo: {
-//       longitude: 116.2380,
-//       latitude: 39.5447,
-//       type: 'withinMiles',
-//       value: 1
-//     }
-//   } 
-// }).then( 
-//   function(response) {
-//     // do something with response
-//     console.log(response.hits[0].input.data.image.url);
-//     console.log(response.hits[0].input.data.geo);
-//   },
-//   function(err) {
-//     // there was an error
-//   }
-// );
+app.inputs.search(
+  { input: {
+    geo: {
+      longitude: 28.7444444,
+      latitude: 81.305,
+      type: 'withinMiles',
+      value: 1
+    }
+  } 
+}).then( 
+  function(response) {
+    // do something with response
+    console.log(response.hits[0].input.data.image.url);
+    console.log(response.hits[0].input.data.geo);
+  },
+  function(err) {
+    console.log(err);
+  }
+);
 
 // This is the prediction function for getting the tags to compare the photos
 
 
-app.models.initModel({id: Clarifai.GENERAL_MODEL, version: "aa7f35c01e0642fda5cf400f543e7c40"})
-      .then(generalModel => {
-        return generalModel.predict("https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Shaqi_jrvej.jpg/1200px-Shaqi_jrvej.jpg", { maxConcepts: 5 });
-      })
-      .then(response => {
-        var concepts = response['outputs'][0]['data']['concepts'];
-        console.log(concepts);
-      });
+// app.models.initModel({id: Clarifai.GENERAL_MODEL, version: "aa7f35c01e0642fda5cf400f543e7c40"})
+//       .then(generalModel => {
+//         return generalModel.predict("https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Shaqi_jrvej.jpg/1200px-Shaqi_jrvej.jpg", { maxConcepts: 5 });
+//       })
+//       .then(response => {
+//         var concepts = response['outputs'][0]['data']['concepts'];
+//         console.log(concepts);
+//       });
