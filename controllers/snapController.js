@@ -36,20 +36,33 @@ module.exports = {
     }).then(
       function(response) {
         console.log('Upload successful');
-        console.log(response['0']);
-        console.log(response['0'].imageUrl);
-        const imageUrl = response['0'].imageUrl,
-              snapData = {
-                url: imageUrl,
-                location: location,
-                userId: authId
-              };
-        console.log(imageUrl);
-        // this will need to be inside the clarifai .then statement
-        db.Snap
-          .create(snapData) // will need to be an object
-          .then(dbModel => res.json(dbModel))
-          .catch(err => res.status(422).json(err));
+        // console.log(response['0']);
+        // console.log(response['0'].imageUrl);
+        const imageUrl = response['0'].imageUrl;
+        // console.log(imageUrl);
+        ClarifaiApp.models.initModel({id: Clarifai.GENERAL_MODEL, version: "aa7f35c01e0642fda5cf400f543e7c40"})
+          .then(generalModel => {
+            return generalModel.predict(imageUrl, { maxConcepts: 5 });
+          })
+          .then(response => {
+            let concepts = response['outputs'][0]['data']['concepts'],
+                tags = [],
+                snapData = {
+                  url: imageUrl,
+                  location: location,
+                  userId: authId
+                };
+            // console.log(concepts);
+            concepts.forEach(function (item) {
+              tags.push(item.name)
+            });
+            snapData.tags = tags;
+            // this will need to be inside the clarifai .then statement
+            db.Snap
+              .create(snapData) // will need to be an object
+              .then(dbModel => res.json(dbModel))
+              .catch(err => res.status(422).json(err));
+          });
       },
       function(err) {
         console.log('there was an error');

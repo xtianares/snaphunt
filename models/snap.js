@@ -12,6 +12,7 @@ const snapSchema = new Schema ({
     type: Schema.Types.ObjectId,
     ref: "User"
   },
+  tags: [{ type: String, required: true }],
   likes: [{
     type: Schema.Types.ObjectId,
     ref: "User"
