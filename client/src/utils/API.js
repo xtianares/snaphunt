@@ -15,6 +15,7 @@ export default {
   },
   // Saves a snap to the database
   saveSnap: function(snapData) {
+    // but this needs to send the info to clarifai first then submit to our DB
     return axios.post("/api/snaps", snapData);
   },
   // Gets all users

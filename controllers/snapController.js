@@ -1,4 +1,10 @@
 const db = require("../models");
+const Clarifai = require('clarifai');
+require('dotenv').config();
+
+const ClarifaiApp = new Clarifai.App({
+  apiKey: process.env.REACT_APP_CLARIFAI_API_KEY
+});
 
 // Defining methods for the snapController
 module.exports = {
@@ -22,10 +28,46 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {
-    db.Snap
-      .create(req.body)
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+    const {imageData, location, authId, huntId} = req.body;
+    // console.log(req.body);
+    ClarifaiApp.inputs.create({
+      base64: imageData.replace('data:image/jpeg;base64,', ''), // needed to remove modify the base64 code
+      geo: { latitude: location.lat, longitude: location.lng },
+    }).then(
+      function(response) {
+        console.log('Upload successful');
+        // console.log(response['0']);
+        // console.log(response['0'].imageUrl);
+        const imageUrl = response['0'].imageUrl;
+        // console.log(imageUrl);
+        ClarifaiApp.models.initModel({id: Clarifai.GENERAL_MODEL, version: "aa7f35c01e0642fda5cf400f543e7c40"})
+          .then(generalModel => {
+            return generalModel.predict(imageUrl, { maxConcepts: 5 });
+          })
+          .then(response => {
+            let concepts = response['outputs'][0]['data']['concepts'],
+                tags = [],
+                snapData = {
+                  url: imageUrl,
+                  location: location,
+                  userId: authId
+                };
+            // console.log(concepts);
+            concepts.forEach(function (item) {
+              tags.push(item.name)
+            });
+            snapData.tags = tags;
+            // this will need to be inside the clarifai .then statement
+            db.Snap
+              .create(snapData) // will need to be an object
+              .then(dbModel => res.json(dbModel))
+              .catch(err => res.status(422).json(err));
+          });
+      },
+      function(err) {
+        console.log('there was an error');
+      }
+    );
   },
   update: function(req, res) {
     db.Snap

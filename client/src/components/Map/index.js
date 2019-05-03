@@ -30,22 +30,22 @@ class Map extends Component {
   }
 
   render() {
-    const googleMapAPI = process.env.REACT_APP_GOOGLEMAP_API_KEY;
-    const googleMapURL = 'https://maps.googleapis.com/maps/api/js?key=' + googleMapAPI + '&v=3.exp&libraries=geometry,drawing'
+    const googleMapKey = process.env.REACT_APP_GOOGLEMAP_API_KEY;
+    const googleMapURL = 'https://maps.googleapis.com/maps/api/js?key=' + googleMapKey + '&v=3.exp&libraries=geometry,drawing'
     const SnapHuntMap = withScriptjs(withGoogleMap(props => (
-      <GoogleMap
-        defaultCenter = { this.state.currentLocation }
-        defaultZoom = { 17 }
-      >
-        <Marker position={this.state.currentLocation} />
-        <Marker position={{lat: 28.744246, lng: -81.3076798}} />
-      </GoogleMap>
+    <GoogleMap
+      defaultCenter = { this.state.currentLocation }
+      defaultZoom = { 17.5 }
+    >
+      <Marker position={this.state.currentLocation} />
+      <Marker position={{lat: 28.744246, lng: -81.3076798}} text="The School" />
+    </GoogleMap>
     )));
 
     return (
       <SnapHuntMap
         googleMapURL={googleMapURL}
-        loadingElement={<div style={{ height: '100%' }} />}
+        loadingElement={<div style={{ height: '100%' }}>Loading...</div>}
         containerElement={ <div id="snap-map" style={{ height: 'calc(100vh - 60px)', width: '100%', marginTop: '56px' }} /> }
         mapElement={ <div style={{ height: '100%' }} /> }
       />
