@@ -63,7 +63,23 @@ class Capture extends Component {
 
   // call api to post the image
   submit = () => {
-
+    console.log(this.state.imageData);
+    API.saveSnap({
+        imageData: this.state.imageData,
+        location: this.state.imageLocation,
+        authId: localStorage.getItem('authId')
+    })
+      .then(snapData => {
+        // console.log(userData.data);
+        if(snapData != null){
+          console.log(snapData)
+        }
+        else {
+          let err = "Something went wrong!";
+          console.log(err);
+        }
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
