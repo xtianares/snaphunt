@@ -1,12 +1,30 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import API from "../utils/API";
+import { Redirect } from "react-router-dom";
+
+function readCookie(name) {
+    var nameEQ = escape(name) + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return unescape(c.substring(nameEQ.length, c.length));
+    }
+    return null;
+}
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
 
 class Signup extends Component {
   state = {
-    loggedIn: false,
-    firstname: "",
-    lastname: "",
+    isAuthenticated: false,
+    firstName: "",
+    lastName: "",
     email: "",
     username: "",
     password: ""
@@ -16,12 +34,23 @@ class Signup extends Component {
     this.checkLogin();
   }
 
+  login = (userData) => {
+    setCookie("isAuthenticated", "true");
+    setCookie("authId", userData._id);
+    this.setState({
+      isAuthenticated: readCookie("isAuthenticated"),
+      redirectToReferrer: true,
+      username: "",
+      password: ""
+    });
+  };
+
   checkLogin = () => {
-    if (!this.state.loggedIn) {
-      console.log("You're Not Logged In")
+    if (!this.state.isAuthenticated) {
+      console.log("Logged In Status: " + this.state.isAuthenticated)
     }
     else {
-      console.log("You Are Now Logged In - " + this.state.loggedIn)
+      console.log("Logged In Status: " + this.state.isAuthenticated)
     }
   };
 
@@ -34,30 +63,32 @@ class Signup extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.firstname && this.state.lastname && this.state.email && this.state.username && this.state.password) {
+    if (this.state.firstName && this.state.lastName && this.state.email && this.state.username && this.state.password) {
       API.saveUser({
-          fistname: this.state.firstname,
-          lastname: this.state.lastname,
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
           email: this.state.email,
-          username: this.state.username,
+          username: (this.state.username).toLowerCase(),
           password: this.state.password
       })
         .then(userData => {
-          console.log(userData.data);
-          if(userData.data != null){
+          // console.log(userData.data);
+          if(userData.data != null && userData.data.errmsg == null){
+            console.log(userData.data);
+            this.login(userData.data);
+            this.checkLogin();
             this.setState({
-              loggedIn: true, 
-              firstname: "",
+              isAuthenticated: true,
+              firstName: "",
               lastName: "",
               email: "",
               username: "",
               password: ""
             });
-            this.checkLogin();
           }
           // if user does not exist
           else {
-            let err = "Please check your username and password.";
+            let err = "Username already taken!";
             console.log(err);
           }
         })
@@ -66,19 +97,20 @@ class Signup extends Component {
   };
 
   render() {
+    if (this.state.isAuthenticated) return <Redirect to={{ pathname: "/" }} />;
     return (
       <Container>
-        <Row>
-          <Col size="md-6 sm-12">
+        <Row className="justify-content-md-center">
+          <Col lg="6" md="8" sm="12">
             <h1 className="text-center">Signup</h1>
             <Form onSubmit={this.handleFormSubmit} action="/api/signup">
               <FormGroup>
                 <Label for="firstname">First Name</Label>
-                <Input onChange={this.handleInputChange} value={this.state.firstname} type="text" name="firstname" id="firstname" placeholder="First Name" />
+                <Input onChange={this.handleInputChange} value={this.state.firstName} type="text" name="firstName" id="firstname" placeholder="First Name" />
               </FormGroup>
               <FormGroup>
                 <Label for="lastname">Last Name</Label>
-                <Input onChange={this.handleInputChange} value={this.state.lastname} type="text" name="lastname" id="lastname" placeholder="Last Name" />
+                <Input onChange={this.handleInputChange} value={this.state.lastName} type="text" name="lastName" id="lastname" placeholder="Last Name" />
               </FormGroup>
               <FormGroup>
                 <Label for="email">Email</Label>

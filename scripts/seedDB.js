@@ -15,7 +15,6 @@ const userSeed = [
     email: "xtian@test.com",
     lastName: "Castanares",
     password: "111111",
-    joinDate: new Date(Date.now())
   },
   {
     username: "jstrub",
@@ -23,7 +22,6 @@ const userSeed = [
     email: "jason@test.com",
     lastName: "Strub",
     password: "111111",
-    joinDate: new Date(Date.now())
   }
 ];
 
@@ -33,16 +31,14 @@ const snapSeed = [
     location: {
       lat: -25.363,
       lng: 131.044
-    },
-    postDate: new Date(Date.now())
+    }
   },
   {
     url: "https://picsum.photos/600/400",
     location: {
       lat: -25.363,
       lng: 131.044
-    },
-    postDate: new Date(Date.now())
+    }
   }
 ];
 
