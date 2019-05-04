@@ -14,10 +14,19 @@ const userSchema = new Schema ({
     type: Schema.Types.ObjectId,
     ref: "Snap"
   }],
-  hunts: [{
+  createdHunts: [{
     type: Schema.Types.ObjectId,
     ref: "Hunt"
-  }]
+  }],
+  completedHunts: [{
+    type: Schema.Types.ObjectId,
+    ref: "Hunt",
+    unique: true
+  }],
+  inProgressHunts: [{
+    type: Schema.Types.ObjectId,
+    ref: "Hunt",
+  }] 
 });
 
 const User = mongoose.model("User", userSchema);
