@@ -63,13 +63,13 @@ class Create extends Component {
         .then(huntData => {
           // console.log(userData.data);
           if(huntData.data != null && huntData.data.errmsg == null){
-            console.log(huntData.data);
             this.setState({
               huntName: "",
               location: "",
               userId: "",
               keywords: []
             });
+            console.log(huntData.data);
           }
           // if user does not exist
           else {

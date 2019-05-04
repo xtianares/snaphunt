@@ -6,24 +6,30 @@ module.exports = {
     db.Hunt
       .find(req.query)
       .sort({ date: -1 })
+      .populate('userId')
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   findByUserId: function(req, res) {
     db.Hunt
-      .findById(req.params.userId)
+      .find({'userId': req.params.userId})
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   findById: function(req, res) {
     db.Hunt
       .findById(req.params.id)
+      .populate('userId')
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {
     db.Hunt
       .create(req.body)
+      .then(function(dbHunt) {
+        console.log(dbHunt);
+        return db.User.findByIdAndUpdate(req.body.userId, {$push: { hunts: dbHunt._id }}, { new: true });
+      })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
