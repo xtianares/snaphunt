@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Capture from "./pages/Capture";
+import Create from "./pages/Create";
 import Snaps from "./pages/Snaps";
 import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav";
@@ -23,12 +24,13 @@ class App extends Component {
           <Nav isAuthenticated={this.state.isAuthenticated} />
           <main>
             <Switch>
-              <Route exact path="/" component={Home} />
+              <PrivateRoute exact path="/" component={Home} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
-              <PrivateRoute path="/snaps" component={Snaps} />
-              <Route exact path="/capture" component={Capture} />
-              <Route exact path="/snap/:id" component={Snaps} />
+              <PrivateRoute exact path="/create" component={Create} />
+              <PrivateRoute exact path="/snaps" component={Snaps} />
+              <PrivateRoute exact path="/capture" component={Capture} />
+              <PrivateRoute exact path="/snap/:id" component={Snaps} />
               <Route component={NoMatch} />
             </Switch>
           </main>

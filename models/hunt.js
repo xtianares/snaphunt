@@ -7,6 +7,7 @@ const huntSchema = new Schema ({
     lat: { type: Number, required: true },
     lng: { type: Number, required: true }
   },
+  keywords: [{ type: String, required: true }],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   userId: {
