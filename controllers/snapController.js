@@ -12,6 +12,7 @@ module.exports = {
     db.Snap
       .find(req.query)
       .sort({ date: -1 })
+      .populate("userId")
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -24,6 +25,7 @@ module.exports = {
   findById: function(req, res) {
     db.Snap
       .findById(req.params.id)
+      .populate("userId")
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -61,7 +63,7 @@ module.exports = {
             db.Snap
               .create(snapData) // will need to be an object
               .then(function(snapDB){
-                return db.User.findByIdAndUpdate(userId, {$push: { snap: snapDB._id }}, { new: true });
+                return db.User.findByIdAndUpdate(authId, {$push: { snaps: snapDB._id }}, { new: true });
               })
               .then(dbModel => res.json(dbModel))
               .catch(err => res.status(422).json(err));
