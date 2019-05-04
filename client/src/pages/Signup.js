@@ -60,14 +60,14 @@ class Signup extends Component {
             console.log(userData.data);
             this.login(userData.data);
             this.checkLogin();
-            this.setState({
-              isAuthenticated: true,
-              firstName: "",
-              lastName: "",
-              email: "",
-              username: "",
-              password: ""
-            });
+            // this.setState({
+            //   isAuthenticated: true,
+            //   firstName: "",
+            //   lastName: "",
+            //   email: "",
+            //   username: "",
+            //   password: ""
+            // });
           }
           // if user does not exist
           else {
