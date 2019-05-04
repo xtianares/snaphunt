@@ -28,6 +28,20 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  addHunt: function(req, res) {
+    console.log(req.body.huntId)
+    db.User
+      .findOneAndUpdate({ _id: req.params.id }, {$addToSet: {inProgressHunts: req.body}}, { new: true })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+  updateHunt: function(req, res) {
+    console.log(req.body.huntId)
+    db.User
+      .findOneAndUpdate({ _id: req.params.id, "inProgressHunts._id": req.body._id }, {$set: {"inProgressHunts.$.keywords": req.body.keywords}}, { new: true })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   remove: function(req, res) {
     db.User
       .findById({ _id: req.params.id })

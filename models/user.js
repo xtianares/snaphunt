@@ -14,10 +14,20 @@ const userSchema = new Schema ({
     type: Schema.Types.ObjectId,
     ref: "Snap"
   }],
-  hunts: [{
+  createdHunts: [{
     type: Schema.Types.ObjectId,
     ref: "Hunt"
-  }]
+  }],
+  completedHunts: [{
+    type: Schema.Types.ObjectId,
+    ref: "Hunt"
+  }],
+  inProgressHunts: [
+    {
+      huntId: { type: String, unique: true },
+      keywords: { type: Object, required: true }
+    }
+  ]
 });
 
 const User = mongoose.model("User", userSchema);

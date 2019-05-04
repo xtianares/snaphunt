@@ -28,7 +28,7 @@ module.exports = {
       .create(req.body)
       .then(function(dbHunt) {
         console.log(dbHunt);
-        return db.User.findByIdAndUpdate(req.body.userId, {$push: { hunts: dbHunt._id }}, { new: true });
+        return db.User.findByIdAndUpdate(req.body.userId, {$push: { createdHunts: dbHunt._id }}, { new: true });
       })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
