@@ -60,6 +60,9 @@ module.exports = {
             // this will need to be inside the clarifai .then statement
             db.Snap
               .create(snapData) // will need to be an object
+              .then(function(snapDB){
+                return db.User.findByIdAndUpdate(userId, {$push: { snap: snapDB._id }}, { new: true });
+              })
               .then(dbModel => res.json(dbModel))
               .catch(err => res.status(422).json(err));
           });
