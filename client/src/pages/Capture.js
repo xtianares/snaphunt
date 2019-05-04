@@ -73,6 +73,7 @@ class Capture extends Component {
         // console.log(userData.data);
         if(snapData != null){
           console.log(snapData)
+          this.retake();
         }
         else {
           let err = "Something went wrong!";

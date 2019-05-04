@@ -86,7 +86,7 @@ class Signup extends Component {
         <Row className="justify-content-md-center">
           <Col lg="6" md="8" sm="12">
             <h1 className="text-center">Signup</h1>
-            <Form onSubmit={this.handleFormSubmit} action="/api/signup">
+            <Form onSubmit={this.handleFormSubmit} action="/api/users">
               <FormGroup>
                 <Label for="firstname">First Name</Label>
                 <Input onChange={this.handleInputChange} value={this.state.firstName} type="text" name="firstName" id="firstname" placeholder="First Name" />
