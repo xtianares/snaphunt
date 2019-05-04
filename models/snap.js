@@ -7,12 +7,13 @@ const snapSchema = new Schema ({
     lat: { type: Number, required: true },
     lng: { type: Number, required: true }
   },
+  tags: [{ type: String, required: true }],
   createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User"
   },
-  tags: [{ type: String, required: true }],
   likes: [{
     type: Schema.Types.ObjectId,
     ref: "User"
