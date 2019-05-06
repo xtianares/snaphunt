@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from 'reactstrap';
 import Webcam from "react-webcam";
+import queryString from 'query-string';
 import API from "../utils/API";
 
 class Capture extends Component {
@@ -9,12 +10,20 @@ class Capture extends Component {
     imageData: "",
     imageLocation: "",
     userId: "", // need to grab this from cached
-    huntId: ""  // need to grab this
+    huntId: "",  // need to grab this
+    keyword: "" // this is grabed form the url query string
   };
 
   componentDidMount = () => {
-    console.log("it mounted");
+    // console.log("it mounted");
     this.getLocation();
+    const queryStrings = queryString.parse(this.props.location.search)
+    // console.log(queryStrings.keyword);
+    this.setState({
+      userId: localStorage.getItem('authId'), // need to grab this from cached
+      huntId: queryStrings.huntId || this.props.match.params.huntId,
+      keyword: queryStrings.keyword || this.props.match.params.keyword
+    });
   }
 
   getLocation = () => {
@@ -67,20 +76,22 @@ class Capture extends Component {
     API.saveSnap({
         imageData: this.state.imageData,
         location: this.state.imageLocation,
-        authId: localStorage.getItem('authId')
+        userId: this.state.authId,
+        keyword: this.state.keyword,
+        huntId: this.state.huntId
     })
-      .then(snapData => {
-        // console.log(userData.data);
-        if(snapData != null){
-          console.log(snapData)
-          this.retake();
-        }
-        else {
-          let err = "Something went wrong!";
-          console.log(err);
-        }
-      })
-      .catch(err => console.log(err));
+    .then(snapData => {
+      // console.log(userData.data);
+      if(snapData != null){
+        console.log(snapData)
+        this.retake();
+      }
+      else {
+        let err = "Something went wrong!";
+        console.log(err);
+      }
+    })
+    .catch(err => console.log(err));
   };
 
   render() {

@@ -6,31 +6,32 @@ module.exports = {
     db.Hunt
       .find(req.query)
       .sort({ date: -1 })
-      .populate('userId')
+      .populate('user')
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   findByUserId: function(req, res) {
     db.Hunt
-      .find({'userId': req.params.userId})
+      .find({'user': req.params.userId})
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   findById: function(req, res) {
     db.Hunt
       .findById(req.params.id)
-      .populate('userId')
+      .populate('user')
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {
     db.Hunt
       .create(req.body)
-      .then(function(dbHunt) {
+      .then(dbHunt => {
         console.log(dbHunt);
-        return db.User.findByIdAndUpdate(req.body.userId, {$push: { createdHunts: dbHunt._id }}, { new: true });
+        db.User.findByIdAndUpdate(req.body.userId, {$push: { createdHunts: dbHunt._id }}, { new: true });
+        res.json(dbHunt)
       })
-      .then(dbModel => res.json(dbModel))
+      // .then(dbHunt => res.json(dbHunt))
       .catch(err => res.status(422).json(err));
   },
   update: function(req, res) {

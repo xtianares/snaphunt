@@ -5,11 +5,8 @@ const userSchema = new Schema ({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   email: { type: String, required: true },
-  // city: { type: String, required: true },
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
   snaps: [{
     type: Schema.Types.ObjectId,
     ref: "Snap"
@@ -22,12 +19,12 @@ const userSchema = new Schema ({
     type: Schema.Types.ObjectId,
     ref: "Hunt"
   }],
-  inProgressHunts: [
-    {
-      huntId: { type: String, unique: true },
-      keywords: { type: Object, required: true }
-    }
-  ]
+  inProgressHunts: [{
+    _id: { type: String, unique: true },
+    keywords: { type: Object, required: true }
+  }],
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
 });
 
 const User = mongoose.model("User", userSchema);
