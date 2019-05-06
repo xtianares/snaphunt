@@ -37,7 +37,11 @@ class Create extends Component {
     const { name, value } = event.target;
     if (name.indexOf("keyword") >= 0) {
       let theKeys = this.state.keywords;
-      if (value !== '') {
+      // console.log("currentKeys:");
+      // console.log(theKeys);
+      // console.log("inputValue: " + value);
+      // console.log(theKeys.indexOf(value));
+      if (value !== '' && value !== null && theKeys.indexOf(value) < 0) {
         theKeys.push(value);
       }
       this.setState({
@@ -49,6 +53,7 @@ class Create extends Component {
         [name]: (value).toLowerCase()
       });
     }
+    // console.log(this.state.keywords)
   };
 
   handleFormSubmit = event => {
@@ -57,11 +62,11 @@ class Create extends Component {
       API.saveHunt({
           huntName: this.state.huntName,
           location: this.state.currentLocation,
-          userId: this.state.userId,
+          user: this.state.userId,
           keywords: this.state.keywords
       })
         .then(huntData => {
-          // console.log(userData.data);
+          // console.log(huntData.data);
           if(huntData.data != null && huntData.data.errmsg == null){
             this.setState({
               huntName: "",

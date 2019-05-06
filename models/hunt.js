@@ -8,7 +8,7 @@ const huntSchema = new Schema ({
     lng: { type: Number, required: true }
   },
   keywords: [{ type: String, required: true }],
-  userId: {
+  user: {
     type: Schema.Types.ObjectId,
     ref: "User"
   },

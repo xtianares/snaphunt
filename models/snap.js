@@ -8,11 +8,11 @@ const snapSchema = new Schema ({
     lng: { type: Number, required: true }
   },
   tags: [{ type: String, required: true }],
-  userId: {
+  user: {
     type: Schema.Types.ObjectId,
     ref: "User"
   },
-  huntId: {
+  hunt: {
     type: Schema.Types.ObjectId,
     ref: "Hunt"
   },

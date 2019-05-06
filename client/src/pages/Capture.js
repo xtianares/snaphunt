@@ -20,6 +20,7 @@ class Capture extends Component {
     const queryStrings = queryString.parse(this.props.location.search)
     // console.log(queryStrings.keyword);
     this.setState({
+      userId: localStorage.getItem('authId'), // need to grab this from cached
       huntId: queryStrings.huntId,
       keyword: queryStrings.keyword
     });
@@ -75,7 +76,7 @@ class Capture extends Component {
     API.saveSnap({
         imageData: this.state.imageData,
         location: this.state.imageLocation,
-        authId: localStorage.getItem('authId'),
+        userId: this.state.authId,
         keyword: this.state.keyword,
         huntId: this.state.huntId
     })

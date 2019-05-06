@@ -17,7 +17,19 @@ export default {
   saveSnap: function(snapData) {
     return axios.post("/api/snaps", snapData);
   },
-  // Saves a snap to the database
+  // Gets all hunts
+  getHunts: function() {
+    return axios.get("/api/hunts");
+  },
+  // Gets the hunt with the given id
+  getHunt: function(id) {
+    return axios.get("/api/hunts/" + id);
+  },
+  // Deletes the hunt with the given id
+  deleteHunt: function(id) {
+    return axios.delete("/api/hunts/" + id);
+  },
+  // Saves a hunt to the database
   saveHunt: function(huntData) {
     return axios.post("/api/hunts", huntData);
   },

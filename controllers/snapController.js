@@ -58,8 +58,8 @@ module.exports = {
             concepts.forEach(function (item) {
               tags.push(item.name)
             });
-            console.log(tags);
-            console.log(keyword);
+            // console.log(tags);
+            // console.log(keyword);
             // if the image returns a tag that macthes the keyword then save the image
             if (tags.indexOf(keyword) >= 0) {
               snapData.tags = tags;
