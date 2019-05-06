@@ -26,7 +26,7 @@ class Snap extends Component {
             huntName,
             location,
             keywords,
-            user
+            user: user.username
           })
         }
       })
@@ -50,7 +50,7 @@ class Snap extends Component {
           <Col md="8" sm="12">
             <h1 className="text-center">{this.state.huntName}</h1>
             <p>
-              {this.state.userId}
+              Created by {this.state.user}
             </p>
             <ul>{listItems}</ul>
           </Col>

@@ -21,8 +21,8 @@ class Capture extends Component {
     // console.log(queryStrings.keyword);
     this.setState({
       userId: localStorage.getItem('authId'), // need to grab this from cached
-      huntId: queryStrings.huntId,
-      keyword: queryStrings.keyword
+      huntId: queryStrings.huntId || this.props.match.params.huntId,
+      keyword: queryStrings.keyword || this.props.match.params.keyword
     });
   }
 

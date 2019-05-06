@@ -33,6 +33,7 @@ class App extends Component {
               <PrivateRoute exact path="/hunts/:id" component={Hunts} />
               <PrivateRoute exact path="/snaps" component={Snaps} />
               <PrivateRoute exact path="/capture" component={Capture} />
+              <PrivateRoute exact path="/capture/:keyword/:huntId" component={Capture} />
               <PrivateRoute exact path="/snap/:id" component={Snaps} />
               <Route component={NoMatch} />
             </Switch>
