@@ -60,17 +60,6 @@ module.exports = {
             concepts.forEach(function (item) {
               tags.push(item.name)
             });
-<<<<<<< HEAD
-            snapData.tags = tags;
-            // this will need to be inside the clarifai .then statement
-            db.Snap
-              .create(snapData) // will need to be an object
-              .then(function(snapDB){
-                return db.User.findByIdAndUpdate(authId, {$push: { snaps: snapDB._id }}, { new: true });
-              })
-              .then(dbModel => res.json(dbModel))
-              .catch(err => res.status(422).json(err));
-=======
             // console.log(tags);
             // console.log(keyword);
             // if the image returns a tag that macthes the keyword then save the image
@@ -88,7 +77,6 @@ module.exports = {
             else {
               res.json({"msg": "The snap doesn't match the keyword."})
             }
->>>>>>> 6949da5cd29b8e5a747bf4e374ad7e96f09b9eff
           });
       },
       function(err) {

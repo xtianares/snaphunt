@@ -12,20 +12,6 @@ const userSchema = new Schema ({
     ref: "Snap"
   }],
   createdHunts: [{
-<<<<<<< HEAD
-    type: Schema.Types.ObjectId,
-    ref: "Hunt"
-  }],
-  completedHunts: [{
-    type: Schema.Types.ObjectId,
-    ref: "Hunt",
-    unique: true
-  }],
-  inProgressHunts: [{
-    type: Schema.Types.ObjectId,
-    ref: "Hunt",
-  }] 
-=======
     type: Schema.Types.ObjectId,
     ref: "Hunt"
   }],
@@ -39,7 +25,6 @@ const userSchema = new Schema ({
   }],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
->>>>>>> 6949da5cd29b8e5a747bf4e374ad7e96f09b9eff
 });
 
 const User = mongoose.model("User", userSchema);
