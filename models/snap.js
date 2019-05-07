@@ -4,24 +4,24 @@ const Schema = mongoose.Schema;
 const snapSchema = new Schema ({
   url: { type: String, required: true },
   location: {
-    lat: { type: Number, required: true },
-    lng: { type: Number, required: true }
+    lng: { type: Number, required: true },
+    lat: { type: Number, required: true }
   },
   tags: [{ type: String, required: true }],
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-  userId: {
+  user: {
     type: Schema.Types.ObjectId,
     ref: "User"
+  },
+  hunt: {
+    type: Schema.Types.ObjectId,
+    ref: "Hunt"
   },
   likes: [{
     type: Schema.Types.ObjectId,
     ref: "User"
   }],
-  hunts: [{
-    type: Schema.Types.ObjectId,
-    ref: "Hunt"
-  }]
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
 });
 
 const Snap = mongoose.model("Snap", snapSchema);

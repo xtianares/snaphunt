@@ -2,19 +2,28 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from 'reactstrap';
 import Webcam from "react-webcam";
+import queryString from 'query-string';
 import API from "../utils/API";
 
 class Capture extends Component {
   state = {
     imageData: "",
-    imageLocation: "",
+    location: "",
     userId: "", // need to grab this from cached
-    huntId: ""  // need to grab this
+    huntId: "",  // need to grab this
+    keyword: "" // this is grabed form the url query string
   };
 
   componentDidMount = () => {
-    console.log("it mounted");
+    // console.log("it mounted");
     this.getLocation();
+    const queryStrings = queryString.parse(this.props.location.search)
+    // console.log(queryStrings.keyword);
+    this.setState({
+      userId: localStorage.getItem('authId'), // need to grab this from cached
+      huntId: queryStrings.huntId || this.props.match.params.huntId,
+      keyword: queryStrings.keyword || this.props.match.params.keyword
+    });
   }
 
   getLocation = () => {
@@ -27,11 +36,11 @@ class Capture extends Component {
 
   showPosition = (position) => {
     let currentLocation = {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude
+      lng: position.coords.longitude,
+      lat: position.coords.latitude
     }
-    this.setState({ imageLocation: currentLocation });
-    // console.log(this.state.imageLocation)
+    this.setState({ location: currentLocation });
+    // console.log(this.state.location)
     // return currentLocation;
   }
 
@@ -66,21 +75,23 @@ class Capture extends Component {
     console.log(this.state.imageData);
     API.saveSnap({
         imageData: this.state.imageData,
-        location: this.state.imageLocation,
-        authId: localStorage.getItem('authId')
+        location: this.state.location,
+        userId: this.state.authId,
+        keyword: this.state.keyword,
+        huntId: this.state.huntId
     })
-      .then(snapData => {
-        // console.log(userData.data);
-        if(snapData != null){
-          console.log(snapData)
-          this.retake();
-        }
-        else {
-          let err = "Something went wrong!";
-          console.log(err);
-        }
-      })
-      .catch(err => console.log(err));
+    .then(snapData => {
+      // console.log(userData.data);
+      if(snapData != null){
+        console.log(snapData)
+        this.retake();
+      }
+      else {
+        let err = "Something went wrong!";
+        console.log(err);
+      }
+    })
+    .catch(err => console.log(err));
   };
 
   render() {

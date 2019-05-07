@@ -30,7 +30,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {
-    const {imageData, location, authId, huntId} = req.body;
+    const {imageData, location, authId, huntId, keyword} = req.body;
     // console.log(req.body);
     ClarifaiApp.inputs.create({
       base64: imageData.replace('data:image/jpeg;base64,', ''), // needed to remove modify the base64 code
@@ -41,6 +41,7 @@ module.exports = {
         // console.log(response['0']);
         // console.log(response['0'].imageUrl);
         const imageUrl = response['0'].imageUrl;
+        // const imageUrl = "https://peopledotcom.files.wordpress.com/2018/02/two-tone-cat.jpg"; // for testing...
         // console.log(imageUrl);
         ClarifaiApp.models.initModel({id: Clarifai.GENERAL_MODEL, version: "aa7f35c01e0642fda5cf400f543e7c40"})
           .then(generalModel => {
@@ -52,12 +53,14 @@ module.exports = {
                 snapData = {
                   url: imageUrl,
                   location: location,
-                  userId: authId
+                  userId: authId,
+                  huntId: huntId
                 };
             // console.log(concepts);
             concepts.forEach(function (item) {
               tags.push(item.name)
             });
+<<<<<<< HEAD
             snapData.tags = tags;
             // this will need to be inside the clarifai .then statement
             db.Snap
@@ -67,6 +70,25 @@ module.exports = {
               })
               .then(dbModel => res.json(dbModel))
               .catch(err => res.status(422).json(err));
+=======
+            // console.log(tags);
+            // console.log(keyword);
+            // if the image returns a tag that macthes the keyword then save the image
+            if (tags.indexOf(keyword) >= 0) {
+              snapData.tags = tags;
+              // this will need to be inside the clarifai .then statement
+              db.Snap
+                .create(snapData) // will need to be an object
+                .then(function(dbSnap) {
+                  return db.User.findByIdAndUpdate(authId, {$push: { snaps: dbSnap._id }}, { new: true });
+                })
+                .then(dbModel => res.json(dbModel))
+                .catch(err => res.status(422).json(err));
+            }
+            else {
+              res.json({"msg": "The snap doesn't match the keyword."})
+            }
+>>>>>>> 6949da5cd29b8e5a747bf4e374ad7e96f09b9eff
           });
       },
       function(err) {

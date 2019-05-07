@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Capture from "./pages/Capture";
 import Create from "./pages/Create";
+import Hunts from "./pages/Hunts";
 import Snaps from "./pages/Snaps";
 import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav";
@@ -28,9 +29,12 @@ class App extends Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
               <PrivateRoute exact path="/create" component={Create} />
+              <PrivateRoute exact path="/hunts" component={Hunts} />
+              <PrivateRoute exact path="/hunt/:id" component={Hunts} />
               <PrivateRoute exact path="/snaps" component={Snaps} />
-              <PrivateRoute exact path="/capture" component={Capture} />
               <PrivateRoute exact path="/snap/:id" component={Snaps} />
+              <PrivateRoute exact path="/capture" component={Capture} />
+              <PrivateRoute exact path="/capture/:keyword/:huntId" component={Capture} />
               <Route component={NoMatch} />
             </Switch>
           </main>

@@ -6,7 +6,7 @@ class Create extends Component {
   state = {
     isAuthenticated: localStorage.getItem("isAuthenticated") || false,
     userId: localStorage.getItem("authId") || "", // need to grab this from cache
-    currentLocation: "",
+    location: "",
     huntName: "",
     keywords: []
   };
@@ -25,10 +25,10 @@ class Create extends Component {
 
   setLocation = (position) => {
     let currentLocation = {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude
+      lng: position.coords.longitude,
+      lat: position.coords.latitude
     }
-    this.setState({ currentLocation: currentLocation });
+    this.setState({ location: currentLocation });
     // console.log(this.state.imageLocation)
     // return currentLocation;
   }
@@ -37,7 +37,11 @@ class Create extends Component {
     const { name, value } = event.target;
     if (name.indexOf("keyword") >= 0) {
       let theKeys = this.state.keywords;
-      if (value !== '') {
+      // console.log("currentKeys:");
+      // console.log(theKeys);
+      // console.log("inputValue: " + value);
+      // console.log(theKeys.indexOf(value));
+      if (value !== '' && value !== null && theKeys.indexOf(value) < 0) {
         theKeys.push(value);
       }
       this.setState({
@@ -49,19 +53,20 @@ class Create extends Component {
         [name]: (value).toLowerCase()
       });
     }
+    // console.log(this.state.keywords)
   };
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.huntName && this.state.currentLocation && this.state.userId && (this.state.keywords).length >= 3) {
+    if (this.state.huntName && this.state.location && this.state.userId && (this.state.keywords).length >= 3) {
       API.saveHunt({
           huntName: this.state.huntName,
-          location: this.state.currentLocation,
-          userId: this.state.userId,
+          location: this.state.location,
+          user: this.state.userId,
           keywords: this.state.keywords
       })
         .then(huntData => {
-          // console.log(userData.data);
+          // console.log(huntData.data);
           if(huntData.data != null && huntData.data.errmsg == null){
             this.setState({
               huntName: "",
