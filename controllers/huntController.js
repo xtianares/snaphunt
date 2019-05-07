@@ -10,6 +10,22 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  findAllWithin: function(req, res) {
+    db.Hunt
+      .find({
+        location: {
+          $geoWithin: {
+            $center: [ req.body.location, 1/69.04117454 ]
+            // $center: [ [-81.3116759, 28.5436103], 1/69.04117454 ]
+          }
+        }
+      })
+      .limit(10)
+      .sort({ date: -1 })
+      .populate('user')
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   findByUserId: function(req, res) {
     db.Hunt
       .find({'user': req.params.userId})
@@ -24,6 +40,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {
+    // console.log(req.body);
     db.Hunt
       .create(req.body)
       .then(dbHunt => {
