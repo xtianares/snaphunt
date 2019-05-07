@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Container, Row, Col } from 'reactstrap';
 import API from "../utils/API";
 
-class Snap extends Component {
+class Hunt extends Component {
   state = {
     huntId: "",
     huntName: "",
@@ -60,4 +60,4 @@ class Snap extends Component {
   }
 }
 
-export default Snap;
+export default Hunt;
