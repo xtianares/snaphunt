@@ -8,7 +8,7 @@ import API from "../utils/API";
 class Capture extends Component {
   state = {
     imageData: "",
-    imageLocation: "",
+    location: "",
     userId: "", // need to grab this from cached
     huntId: "",  // need to grab this
     keyword: "" // this is grabed form the url query string
@@ -36,11 +36,11 @@ class Capture extends Component {
 
   showPosition = (position) => {
     let currentLocation = {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude
+      lng: position.coords.longitude,
+      lat: position.coords.latitude
     }
-    this.setState({ imageLocation: currentLocation });
-    // console.log(this.state.imageLocation)
+    this.setState({ location: currentLocation });
+    // console.log(this.state.location)
     // return currentLocation;
   }
 
@@ -75,7 +75,7 @@ class Capture extends Component {
     console.log(this.state.imageData);
     API.saveSnap({
         imageData: this.state.imageData,
-        location: this.state.imageLocation,
+        location: this.state.location,
         userId: this.state.authId,
         keyword: this.state.keyword,
         huntId: this.state.huntId
