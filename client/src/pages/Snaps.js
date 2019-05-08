@@ -20,14 +20,14 @@ class Snap extends Component {
           }
           this.setState({ imageUrls: imageUrls });
         })
-        .then(console.log("state source" + this.state.snapUrl))
+        // .then(console.log("state source" + this.state.snapUrl))
         .catch(err => console.log(err));
 
-    console.log("state source" + this.state.snapUrl);
+    // console.log("state source" + this.state.snapUrl);
   }
 
   render() {
-    const images = this.state.imageUrls.map((item, key) =>
+    const images = this.state.imageUrls.map((item) =>
         <img src={item} key={item}/>
     )
     return (
