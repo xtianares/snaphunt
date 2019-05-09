@@ -27,7 +27,7 @@ class Nav extends Component {
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item"><a className="nav-link" href="/">Home</a></li>
                 <li className="nav-item"><a className="nav-link" href="/create/">Create</a></li>
-                {/*<li className="nav-item"><a className="nav-link" href="/snaps/">Snaps</a></li>*/}
+                <li className="nav-item"><a className="nav-link" href="/snaps/">Snaps</a></li>
                 {this.state.isAuthenticated ? <li className="nav-item"><a className="nav-link" href="/" onClick={this.logout}>Logout</a></li> : null}
               </ul>
             </div>
