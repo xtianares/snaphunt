@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps";
+import HuntMarker from "./HuntMarker.js";
 import API from "../../utils/API";
 
 class Map extends Component {
@@ -22,6 +23,7 @@ class Map extends Component {
   }
 
   showPosition = (position) => {
+    console.log(position);
     let currentLocation = {
       lng: position.coords.longitude,
       lat: position.coords.latitude
@@ -54,15 +56,29 @@ class Map extends Component {
     const googleMapKey = process.env.REACT_APP_GOOGLEMAP_API_KEY;
     const googleMapURL = 'https://maps.googleapis.com/maps/api/js?key=' + googleMapKey + '&v=3.exp&libraries=geometry,drawing';
     const huntMarkers = this.state.hunts.map((item, key) =>
-      <Marker key={item._id} position={item.location} />
+      // <Marker key={item._id} position={item.location}>
+      //   <InfoWindow position={item.location}>
+      //     <div>
+      //       <h6>{item.huntName}</h6>
+      //       <a href={`/hunt/${item._id}`}>View</a>
+      //     </div>
+      //   </InfoWindow>
+      // </Marker>
+      <HuntMarker
+        key={item._id}
+        position={item.location}
+        huntName={item.huntName}
+        huntId={item._id}
+      />
     );
     const SnapHuntMap = withScriptjs(withGoogleMap(props => (
       <GoogleMap
         defaultCenter = { this.state.currentLocation }
         defaultZoom = { 17 }
       >
-        <Marker position={this.state.currentLocation} />
-        {/*<Marker position={{lng: -81.3076798, lat: 28.744246}} text="The School" />*/}
+        {/*<Marker position={this.state.currentLocation} />
+        <Marker position={{lng: -81.3076798, lat: 28.744246}} text="The School" />*/}
+
         {huntMarkers}
       </GoogleMap>
     )));
