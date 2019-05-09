@@ -21,6 +21,12 @@ export default {
   getHunts: function() {
     return axios.get("/api/hunts");
   },
+  // Gets all hunts near me
+  getHuntsNearMe: function(locationData) {
+    console.log(locationData);
+    let { lng, lat } = locationData;
+    return axios.get(`/api/hunts/near-me/?lng=${lng}&lat=${lat}`);
+  },
   // Gets the hunt with the given id
   getHunt: function(id) {
     return axios.get("/api/hunts/" + id);

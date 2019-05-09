@@ -6,6 +6,10 @@ router.route("/")
   .get(huntController.findAll)
   .post(huntController.create);
 
+// all hunts
+router.route("/near-me/")
+  .get(huntController.findAllWithin)
+
 // find hunts by id
 router
   .route("/:id")

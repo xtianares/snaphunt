@@ -11,11 +11,12 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   findAllWithin: function(req, res) {
+    const loc = [req.query.lng, req.query.lat]
     db.Hunt
       .find({
         location: {
           $geoWithin: {
-            $center: [ req.body.location, 1/69.04117454 ]
+            $center: [ loc, 1.5/69.04117454 ]
             // $center: [ [-81.3116759, 28.5436103], 1/69.04117454 ]
           }
         }
