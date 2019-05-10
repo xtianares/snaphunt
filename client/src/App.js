@@ -12,6 +12,7 @@ import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
+import Profile from "./pages/Profile"
 
 class App extends Component {
   state = {
@@ -34,6 +35,7 @@ class App extends Component {
               <PrivateRoute exact path="/snaps" component={Snaps} />
               <PrivateRoute exact path="/snap/:id" component={Snaps} />
               <PrivateRoute exact path="/capture" component={Capture} />
+              <PrivateRoute exact path="/profile/:id" component={Profile} />
               <PrivateRoute exact path="/capture/:keyword/:huntId" component={Capture} />
               <Route component={NoMatch} />
             </Switch>
