@@ -33,6 +33,18 @@ class Hunt extends Component {
       .catch(err => console.log(err));
   }
 
+  playHunt() {
+    API.playHunt(this.props.match.params.id)
+      .then(huntData => {
+        // console.log(userData.data);
+        if(huntData.data != null && huntData.data.errmsg == null){
+          console.log(huntData.data);
+          const { _id, huntName, location, keywords, user } = huntData.data;
+        }
+      })
+      .catch(err => console.log(err));
+  }
+
   render() {
     const keywords = this.state.keywords;
     // const captureUrl = (keyword) => {
@@ -53,6 +65,7 @@ class Hunt extends Component {
               Created by {this.state.user}
             </p>
             <ul>{listItems}</ul>
+            <a href="#" onClick={this.playHunt()}>Start Hunt</a>
           </Col>
         </Row>
       </Container>

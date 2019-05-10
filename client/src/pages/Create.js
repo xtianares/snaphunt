@@ -62,7 +62,7 @@ class Create extends Component {
       API.saveHunt({
           huntName: this.state.huntName,
           location: this.state.location,
-          user: this.state.userId,
+          userId: this.state.userId,
           keywords: this.state.keywords
       })
         .then(huntData => {

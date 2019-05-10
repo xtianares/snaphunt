@@ -31,6 +31,10 @@ export default {
   getHunt: function(id) {
     return axios.get("/api/hunts/" + id);
   },
+  // Adds the hunt to the users inProgressHunts list 
+  playHunt: function(id) {
+    return axios.get("/api/hunts/" + id);
+  },
   // Deletes the hunt with the given id
   deleteHunt: function(id) {
     return axios.delete("/api/hunts/" + id);
