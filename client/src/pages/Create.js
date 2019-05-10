@@ -57,12 +57,13 @@ class Create extends Component {
   };
 
   handleFormSubmit = event => {
+    event.persist();
     event.preventDefault();
     if (this.state.huntName && this.state.location && this.state.userId && (this.state.keywords).length >= 3) {
       API.saveHunt({
           huntName: this.state.huntName,
           location: this.state.location,
-          userId: this.state.userId,
+          user: this.state.userId,
           keywords: this.state.keywords
       })
         .then(huntData => {
@@ -74,6 +75,7 @@ class Create extends Component {
               userId: "",
               keywords: []
             });
+            event.target.reset();
             console.log(huntData.data);
           }
           // if user does not exist

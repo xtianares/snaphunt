@@ -33,7 +33,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   addHunt: function(req, res) {
-    console.log(req.body)
+    // console.log(req.body)
     db.User
       .findOneAndUpdate({ _id: req.params.id }, {$addToSet: {inProgressHunts: req.body}}, { new: true })
       .then(dbModel => res.json(dbModel))
