@@ -3,7 +3,8 @@ import { Redirect } from "react-router-dom";
 
 class Nav extends Component {
   state = {
-    isAuthenticated: this.props.isAuthenticated || false
+    isAuthenticated: this.props.isAuthenticated || false,
+    userId: localStorage.getItem("authId")
   };
 
   componentDidMount = () => {
@@ -28,6 +29,7 @@ class Nav extends Component {
                 <li className="nav-item"><a className="nav-link" href="/">Home</a></li>
                 <li className="nav-item"><a className="nav-link" href="/create/">Create</a></li>
                 <li className="nav-item"><a className="nav-link" href="/snaps/">Snaps</a></li>
+                <li className="nav-item"><a className="nav-link" href={`/profile/${this.state.userId}`}>Profile</a></li>
                 {this.state.isAuthenticated ? <li className="nav-item"><a className="nav-link" href="/" onClick={this.logout}>Logout</a></li> : null}
               </ul>
             </div>
