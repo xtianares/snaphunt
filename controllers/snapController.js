@@ -12,7 +12,7 @@ module.exports = {
     db.Snap
       .find(req.query)
       .sort({ date: -1 })
-      .populate("userId")
+      .populate('user', 'username')
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -25,7 +25,7 @@ module.exports = {
   findById: function(req, res) {
     db.Snap
       .findById(req.params.id)
-      .populate("userId")
+      .populate('user', 'username')
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -45,7 +45,7 @@ module.exports = {
         // console.log(imageUrl);
         ClarifaiApp.models.initModel({id: Clarifai.GENERAL_MODEL, version: "aa7f35c01e0642fda5cf400f543e7c40"})
           .then(generalModel => {
-            return generalModel.predict(imageUrl, { maxConcepts: 5 });
+            return generalModel.predict(imageUrl, { maxConcepts: 10 });
           })
           .then(response => {
             let concepts = response['outputs'][0]['data']['concepts'],
