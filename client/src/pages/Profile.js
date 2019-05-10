@@ -11,6 +11,7 @@ class Profile extends Component {
   };
 
   componentDidMount () {
+    console.log("it mounted");
     API.getUser(this.props.match.params.id) 
       .then(userData => {
         if(userData.data != null && userData.data.errmsg == null) {
@@ -32,6 +33,20 @@ class Profile extends Component {
         <Row className="justify-content-md-center">
           <Col md="8" sm="12">
             <h1 className="text-center">{this.state.username}</h1>
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col>
+            <h3 className="text-center">Completed Hunts</h3>
+            <p>
+              {this.state.completedHunts}
+            </p>
+          </Col>
+          <Col>
+            <h3 className="text-center">Hunts In Progress</h3>
+            <p>
+              {this.state.inProgressHunts}
+            </p>
           </Col>
         </Row>
       </Container>
