@@ -41,13 +41,15 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {
-    // console.log(req.body);
+    console.log(req.body);
     db.Hunt
       .create(req.body)
       .then(dbHunt => {
         console.log(dbHunt);
-        db.User.findByIdAndUpdate(req.body.userId, {$push: { createdHunts: dbHunt._id }}, { new: true });
-        res.json(dbHunt)
+        db.User.findByIdAndUpdate(req.body.userId, {$push: { createdHunts: dbHunt._id }}, { new: true })
+        .then(dbUser => {
+          res.json(dbHunt)
+        })
       })
       // .then(dbHunt => res.json(dbHunt))
       .catch(err => res.status(422).json(err));
