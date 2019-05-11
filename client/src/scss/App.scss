@@ -46,7 +46,7 @@ header .title {
   font-size: 1.5rem;
 }
 main > .container, main > .container-fluid {
-  padding-top: 60px;
+  padding-top: 80px;
 }
 h1 {
   font-family: 'Roboto Slab', 'Open Sans', 'Trebuchet MS', Verdana, Arial, Helvetica, sans-serif;
@@ -186,6 +186,10 @@ img.taken {
   top: 0 !important;
   left: 0 !important;
   z-index: 2;
+}
+.btn.keyword {
+  min-width: 100px;
+  margin-right: 10px;
 }
 
 footer {

@@ -58,12 +58,12 @@ module.exports = {
                 };
             // console.log(concepts);
             concepts.forEach(function (item) {
-              tags.push(item.name)
+              tags.push((item.name).toLowerCase())
             });
             // console.log(tags);
             // console.log(keyword);
             // if the image returns a tag that macthes the keyword then save the image
-            if (tags.indexOf(keyword) >= 0) {
+            if (tags.indexOf(keyword.toLowerCase()) >= 0) {
               snapData.tags = tags;
               // this will need to be inside the clarifai .then statement
               db.Snap

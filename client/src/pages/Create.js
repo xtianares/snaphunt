@@ -96,7 +96,7 @@ class Create extends Component {
             <h1 className="text-center">Create a Hunt</h1>
             <Form onSubmit={this.handleFormSubmit} action="/api/hunts">
               <FormGroup>
-                <Label for="huntName">Hunt Name</Label>
+                <Label for="huntName">Hunt Name (be creative)</Label>
                 <Input onChange={this.handleInputChange} value={this.state.huntName} type="text" name="huntName" id="huntName" placeholder="Hunt Name" />
               </FormGroup>
               <FormGroup>
