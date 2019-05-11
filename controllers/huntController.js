@@ -46,7 +46,7 @@ module.exports = {
       .create(req.body)
       .then(dbHunt => {
         console.log(dbHunt);
-        db.User.findByIdAndUpdate(req.body.userId, {$push: { createdHunts: dbHunt._id }}, { new: true })
+        db.User.findByIdAndUpdate(req.body.user, {$push: { createdHunts: dbHunt._id }}, { new: true })
         .then(dbUser => {
           res.json(dbHunt)
         })
