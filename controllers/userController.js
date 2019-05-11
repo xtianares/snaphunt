@@ -47,7 +47,7 @@ module.exports = {
   updateHunt: function(req, res) {
     console.log(req.body.huntId)
     db.User
-      .findOneAndUpdate({ _id: req.params.id, "inProgressHunts.huntId": req.body._id }, {$set: {"inProgressHunts.$.keywords": req.body.keywords}}, { new: true })
+      .findOneAndUpdate({ _id: req.params.id, "inProgressHunts._id": req.body._id }, {$set: {"inProgressHunts.$.keywords": req.body.keywords}}, { new: true })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

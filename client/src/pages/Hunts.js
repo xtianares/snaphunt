@@ -50,19 +50,60 @@ class Hunt extends Component {
 
   playHunt() {
     console.log(this.state);
-    let huntData = {
-      _id: this.state.huntId,
-      keywords: this.state.keywords
-    }
-    API.playHunt(this.state.userId, huntData)
+    API.getUser(this.state.userId)
       .then(userData => {
-        // console.log(userData.data);
-        if(userData.data != null && userData.data.errmsg == null){
+        let {inProgressHunts} = userData.data;
+        if(userData.data != null && userData.data.errmsg == null && inProgressHunts) {
+          let unique = false;
+          inProgressHunts.forEach(item => {
+            if (item._id !== this.state.huntId) {
+              unique = true;
+            }
+            else {
+              unique = false;
+              return;
+            }
+          });
           console.log(userData.data);
-          // const { _id, huntName, location, keywords, user } = userData.data;
+          console.log(inProgressHunts);
+
+          if (unique) {
+            const keywords = {};
+            (this.state.keywords).forEach(element => {
+              keywords[element] = false;
+            });
+            console.log(keywords);
+            let huntData = {
+              _id: this.state.huntId,
+              huntName: this.state.huntName,
+              keywords: this.state.keywords
+            }
+            API.playHunt(this.state.userId, huntData)
+              .then(userData => {
+                // console.log(userData.data);
+                if(userData.data != null && userData.data.errmsg == null){
+                  console.log(userData.data);
+                  // const { _id, huntName, location, keywords, user } = userData.data;
+                }
+              })
+              .catch(err => console.log(err));
+          }
+          else {
+            console.log("Hunt is already in progress!");
+          }
         }
-      })
-      .catch(err => console.log(err));
+    })
+    .catch(err => console.log(err));
+
+    // API.playHunt(this.state.userId, huntData)
+    //   .then(userData => {
+    //     // console.log(userData.data);
+    //     if(userData.data != null && userData.data.errmsg == null){
+    //       console.log(userData.data);
+    //       // const { _id, huntName, location, keywords, user } = userData.data;
+    //     }
+    //   })
+    //   .catch(err => console.log(err));
   }
 
   render() {

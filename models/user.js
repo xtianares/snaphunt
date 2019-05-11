@@ -20,7 +20,8 @@ const userSchema = new Schema ({
     ref: "Hunt"
   }],
   inProgressHunts: [{
-    _id: { type: Schema.Types.ObjectId, ref: 'Hunt' },
+    _id: { type: Schema.Types.ObjectId, ref: 'Hunt', unique: true },
+    huntName: { type: String, required: true },
     keywords: { type: Object, required: true }
   }],
   createdAt: { type: Date, default: Date.now },
