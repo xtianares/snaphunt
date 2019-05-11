@@ -1,33 +1,76 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Container, Row, Col } from 'reactstrap';
 import API from "../utils/API";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardHeader,
+  CardBody,
+  CardTitle,
+  CardText,
+  CardFooter,
+  Button
+} from 'reactstrap';
 
 class Profile extends Component {
   state = {
     username: "",
+    createdHunts: [],
     completedHunts: [],
     inProgressHunts: []
   };
 
-  componentDidMount () {
+  componentDidMount() {
     console.log("it mounted");
-    API.getUser(this.props.match.params.id) 
+    API.getUser(this.props.match.params.id)
       .then(userData => {
-        if(userData.data != null && userData.data.errmsg == null) {
+        
+        if (userData.data != null && userData.data.errmsg == null) {
           console.log(userData.data);
-          const { username, completedHunts, inProgressHunts } = userData.data;
+          const { username, completedHunts, inProgressHunts, createdHunts } = userData.data;
+
+          let createdHuntsName = [];
+          let completedHuntsName = [];
+          let inProgressHuntsName =[];
+
+        for (let i = 0; i < createdHunts.length; i++) {
+          createdHuntsName.push(createdHunts[i].huntName);
+        };
+
+        for (let i = 0; i < completedHunts.length; i++) {
+          completedHuntsName.push(completedHunts[i].huntName);
+        };
+
+        for (let i = 0; i < inProgressHunts.length; i++) {
+          inProgressHuntsName.push(inProgressHunts[i].huntName);
+        };
+
           this.setState({
             username,
-            completedHunts,
-            inProgressHunts
+            completedHunts: completedHuntsName,
+            inProgressHunts: inProgressHuntsName,
+            createdHunts: createdHuntsName
           });
         }
-    })
-    .catch(err => console.log(err)); 
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
+    const created = this.state.createdHunts.map((create) => {
+      return <li className="list-group-item">{create}</li>
+    });
+
+    const completed = this.state.completedHunts.map((complete) => {
+      return <li className="list-group-item">{complete}</li>
+    });
+
+    const inProgress = this.state.inProgressHunts.map((progress) => {
+      return <li className="list-group-item">{progress}</li>
+    })
+
     return (
       <Container>
         <Row className="justify-content-md-center">
@@ -37,16 +80,35 @@ class Profile extends Component {
         </Row>
         <Row className="justify-content-md-center">
           <Col>
-            <h3 className="text-center">Completed Hunts</h3>
-            <p>
-              {this.state.completedHunts}
-            </p>
+            <Card>
+              <CardHeader>
+                <h3 className="text-center">Created Hunts</h3>
+              </CardHeader>
+                <ul className="list-group list-group-flush">
+                  {created}
+                </ul>
+              
+            </Card>
           </Col>
           <Col>
-            <h3 className="text-center">Hunts In Progress</h3>
-            <p>
-              {this.state.inProgressHunts}
-            </p>
+            <Card>
+              <CardHeader>
+                <h3 className="text-center">Completed Hunts</h3>
+              </CardHeader>
+                <ul className="list-group list-group-flush">
+                  {completed}
+                </ul>
+            </Card>
+          </Col>
+          <Col>
+            <Card>
+              <CardHeader>
+                <h3 className="text-center">Hunts In Progress</h3>
+              </CardHeader>
+                <ul className="list-group list-group-flush">
+                  {inProgress}
+                </ul>
+            </Card>
           </Col>
         </Row>
       </Container>
