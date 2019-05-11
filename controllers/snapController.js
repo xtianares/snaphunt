@@ -30,7 +30,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {
-    const {imageData, location, authId, huntId, keyword} = req.body;
+    const {imageData, location, userId, huntId, keyword} = req.body;
     // console.log(req.body);
     ClarifaiApp.inputs.create({
       base64: imageData.replace('data:image/jpeg;base64,', ''), // needed to remove modify the base64 code
@@ -53,7 +53,7 @@ module.exports = {
                 snapData = {
                   url: imageUrl,
                   location: location,
-                  userId: authId,
+                  userId: userId,
                   huntId: huntId
                 };
             // console.log(concepts);
@@ -63,13 +63,92 @@ module.exports = {
             // console.log(tags);
             // console.log(keyword);
             // if the image returns a tag that macthes the keyword then save the image
-            if (tags.indexOf(keyword.toLowerCase()) >= 0) {
+            // at the same time it it matcher modify the user's inProgressHunts
+            // if (tags.indexOf(keyword.toLowerCase()) >= 0) {
+            if (true) {
+              db.User.findById(userId)
+              .then(userData => {
+                // console.log(userData);
+                let {inProgressHunts} = userData;
+                // console.log(inProgressHunts[0]);
+                let huntData = {};
+                inProgressHunts.forEach(element => {
+                  // console.log(element._id);
+                  // console.log(huntId);
+                  if (element._id == huntId) {
+                    console.log("This is it: " + element._id);
+                    console.log(element.keywords);
+                    // function to set the matched keyword to true...
+                    huntData = {
+                      _id: huntId,
+                      huntName: element.huntName,
+                      keywords: element.keywords
+                      // keywords: {
+                      //   "pen": true,
+                      //   "laptop": false,
+                      //   "bag": false
+                      // }
+                    }
+                  }
+                })
+                // let huntData = {
+                //   _id: huntId,
+                //   // keywords: element.keywords
+                //   keywords: {
+                //     "pen": true,
+                //     "laptop": true,
+                //     "bag": false
+                //   }
+                // }
+
+                db.User.findOneAndUpdate({ _id: userId, "inProgressHunts._id": huntId }, {$set: {"inProgressHunts.$.keywords": huntData.keywords}}, { new: true })
+                  .then(userData2 => {
+                    // console.log(userData.data);
+                    if(userData2.data != null && userData2.data.errmsg == null){
+                      console.log(userData2.data);
+                      // const { _id, huntName, location, keywords, user } = userData.data;
+                    }
+                  })
+                  .catch(err => console.log(err));
+              })
+
               snapData.tags = tags;
               // this will need to be inside the clarifai .then statement
               db.Snap
                 .create(snapData) // will need to be an object
                 .then(function(dbSnap) {
-                  return db.User.findByIdAndUpdate(authId, {$push: { snaps: dbSnap._id }}, { new: true });
+                  console.log(dbSnap._id);
+                  console.log(userId);
+                  return db.User.findByIdAndUpdate(userId, {$push: { snaps: dbSnap._id }}, { new: true })
+                    // .then(function(userData){
+                    //   console.log(userData);
+                    //   let {inProgressHunts} = userData.data;
+                    //   let huntData = {};
+                    //   inProgressHunts.forEach(element => {
+                    //     if (element._id === huntId) {
+                    //       console.log(element.keywords);
+                    //       huntData = {
+                    //         _id: huntId,
+                    //         huntName: element.huntName,
+                    //         // keywords: element.keywords
+                    //         keywords: {
+                    //           "pen": true,
+                    //           "laptop": true,
+                    //           "bag": true
+                    //         }
+                    //       }
+                    //     }
+                    //   })
+                    //   db.User.findOneAndUpdate({ _id: userId, "inProgressHunts._id": huntId }, {$set: {"inProgressHunts.$.keywords": huntData.keywords}}, { new: true })
+                    //     .then(userData2 => {
+                    //       // console.log(userData.data);
+                    //       if(userData2.data != null && userData2.data.errmsg == null){
+                    //         console.log(userData2.data);
+                    //         // const { _id, huntName, location, keywords, user } = userData.data;
+                    //       }
+                    //     })
+                    //     .catch(err => console.log(err));
+                    // })
                 })
                 .then(dbModel => res.json(dbModel))
                 .catch(err => res.status(422).json(err));

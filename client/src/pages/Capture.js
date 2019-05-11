@@ -76,7 +76,7 @@ class Capture extends Component {
     API.saveSnap({
         imageData: this.state.imageData,
         location: this.state.location,
-        userId: this.state.authId,
+        userId: this.state.userId,
         keyword: this.state.keyword,
         huntId: this.state.huntId
     })
