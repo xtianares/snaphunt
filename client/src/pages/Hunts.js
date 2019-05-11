@@ -79,7 +79,7 @@ class Hunt extends Component {
             <Card>
               <CardHeader tag="h5">
                 {this.state.huntName}
-                <small className="mt-1 text-muted float-right font-weight-lighter font-italic">Created by: {this.state.user}</small>
+                <small className="mt-1 text-muted float-right font-weight-lighter font-italic">Created by: {this.state.userName}</small>
               </CardHeader>
               <CardBody>
                 <CardTitle>Match the keywords below to complete the hunt.</CardTitle>
