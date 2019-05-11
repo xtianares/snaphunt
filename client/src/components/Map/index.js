@@ -87,7 +87,7 @@ class Map extends Component {
     return (
       <SnapHuntMap
         googleMapURL={googleMapURL}
-        loadingElement={<div style={{ height: '100%' }}>Loading...</div>}
+        loadingElement={<div style={{ height: '100%', backgroundColor: 'red'}}>{this.state.currentLocation === '' ? 'Loading...' : null}</div>}
         containerElement={ <div id="snap-map" style={{ height: 'calc(100vh - 60px)', width: '100%', marginTop: '56px' }} /> }
         mapElement={ <div style={{ height: '100%' }} /> }
       />

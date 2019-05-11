@@ -55,7 +55,7 @@ class Signup extends Component {
           password: this.state.password
       })
         .then(userData => {
-          // console.log(userData.data);
+          console.log(userData);
           if(userData.data != null && userData.data.errmsg == null){
             console.log(userData.data);
             this.login(userData.data);
