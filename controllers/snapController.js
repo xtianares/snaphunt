@@ -64,8 +64,8 @@ module.exports = {
             // console.log(keyword);
             // if the image returns a tag that macthes the keyword then save the image
             // at the same time it it matcher modify the user's inProgressHunts
-            // if (tags.indexOf(keyword.toLowerCase()) >= 0) {
-            if (true) {
+            if (tags.indexOf(keyword.toLowerCase()) >= 0) {
+            // if (true) {
               db.User.findById(userId)
               .then(userData => {
                 // console.log(userData);
