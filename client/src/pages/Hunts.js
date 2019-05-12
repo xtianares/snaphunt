@@ -76,7 +76,7 @@ class Hunt extends Component {
             let huntData = {
               _id: this.state.huntId,
               huntName: this.state.huntName,
-              keywords: this.state.keywords
+              keywords: keywords
             }
             API.playHunt(this.state.userId, huntData)
               .then(userData => {
