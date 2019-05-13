@@ -13,7 +13,7 @@ class Capture extends Component {
     huntId: "",  // need to grab this
     keyword: "", // this is grabed form the url query string
     keywordMatched : false,
-    snapStatus: ""
+    tryAgain: false
   };
 
   componentDidMount = () => {
@@ -66,7 +66,8 @@ class Capture extends Component {
   retake = () => {
     this.setState({
       imageData: "",
-      keywordMatched: false
+      keywordMatched: false,
+      tryAgain: false
     });
     document.querySelector(".camera-output").src = "//:0";
     document.querySelector(".camera-output").classList.remove("taken");
@@ -97,9 +98,10 @@ class Capture extends Component {
       else if (snapData.data.err) {
         console.log(snapData.data.err)
         this.setState({
-          keywordMatched: false
+          keywordMatched: false,
+          tryAgain: true
         });
-        this.retake();
+        // this.retake();
       }
       else {
         let err = "Something went wrong!";
@@ -132,8 +134,25 @@ class Capture extends Component {
               <img src="//:0" alt="" className="camera-output" />
               {
                 this.state.keywordMatched ?
-                <div className="snap-status">Snap matched the keyword!</div> :
-                null
+                <div className="snap-status text-center d-flex justify-content-center align-items-center">
+                  <div>
+                    <h3>Good Job!</h3>
+                    <p>Snap matched the keyword!</p>
+                    <a className="btn btn-success" href={`/hunt/${this.state.huntId}`}>Continue Hunt</a>
+                  </div>
+                </div>
+                : null
+              }
+              {
+                this.state.tryAgain ?
+                <div className="snap-status text-center d-flex justify-content-center align-items-center">
+                  <div>
+                    <h3>Nope, try again!</h3>
+                    <p>Snap didn't matched the keyword!</p>
+                    <button className="btn btn-success" onClick={this.retake}>Try Again</button>
+                  </div>
+                </div>
+                : null
               }
               <button className="camera-trigger hide" onClick={this.capture}><i data-feather="camera"></i></button>
               <button className="camera-retake" onClick={this.retake}><i data-feather="x"></i></button>
