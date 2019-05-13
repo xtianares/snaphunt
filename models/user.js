@@ -20,7 +20,7 @@ const userSchema = new Schema ({
     ref: "Hunt"
   }],
   inProgressHunts: [{
-    _id: { type: Schema.Types.ObjectId, ref: 'Hunt', unique: true },
+    _id: { type: Schema.Types.ObjectId, ref: 'Hunt' },
     huntName: { type: String, required: true },
     keywords: { type: Object, required: true }
   }],
@@ -29,5 +29,7 @@ const userSchema = new Schema ({
 });
 
 const User = mongoose.model("User", userSchema);
+
+User.createIndexes();
 
 module.exports = User;

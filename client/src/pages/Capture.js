@@ -11,7 +11,9 @@ class Capture extends Component {
     location: "",
     userId: "", // need to grab this from cached
     huntId: "",  // need to grab this
-    keyword: "" // this is grabed form the url query string
+    keyword: "", // this is grabed form the url query string
+    keywordMatched : false,
+    snapStatus: ""
   };
 
   componentDidMount = () => {
@@ -62,7 +64,10 @@ class Capture extends Component {
   };
 
   retake = () => {
-    this.setState({ imageData: "" });
+    this.setState({
+      imageData: "",
+      keywordMatched: false
+    });
     document.querySelector(".camera-output").src = "//:0";
     document.querySelector(".camera-output").classList.remove("taken");
     document.querySelector(".camera-retake").classList.remove("show");
@@ -81,9 +86,19 @@ class Capture extends Component {
         huntId: this.state.huntId
     })
     .then(snapData => {
-      // console.log(userData.data);
-      if(snapData != null){
+      console.log(snapData.data);
+      console.log('error: ' + snapData.data.err);
+      if (snapData.data !== null && snapData.data.err === undefined) {
         console.log(snapData)
+        this.setState({
+          keywordMatched: true
+        });
+      }
+      else if (snapData.data.err) {
+        console.log(snapData.data.err)
+        this.setState({
+          keywordMatched: false
+        });
         this.retake();
       }
       else {
@@ -115,6 +130,11 @@ class Capture extends Component {
                 screenshotQuality={1}
               />
               <img src="//:0" alt="" className="camera-output" />
+              {
+                this.state.keywordMatched ?
+                <div className="snap-status">Snap matched the keyword!</div> :
+                null
+              }
               <button className="camera-trigger hide" onClick={this.capture}><i data-feather="camera"></i></button>
               <button className="camera-retake" onClick={this.retake}><i data-feather="x"></i></button>
               <button className="camera-upload" onClick={this.submit}><i data-feather="upload"></i></button>
