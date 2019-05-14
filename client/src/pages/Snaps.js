@@ -31,7 +31,7 @@ class Snap extends Component {
         <img src={item} key={item}/>
     )
     return (
-      
+
       <Container>
         <Row className="justify-content-md-center">
           <Col md="8" sm="12">
@@ -39,7 +39,7 @@ class Snap extends Component {
           </Col>
         </Row>
         <Row className="justify-content-md-center">
-          <Col md="8" sm="12">
+          <Col md="8" sm="12" lg="12" className="text-center">
             {images}
           </Col>
         </Row>

@@ -22,7 +22,7 @@ class Hunt extends Component {
     keywords: [],
     userId: localStorage.getItem("authId") || "",
     userName: "",
-    activeKeywords: localStorage.getItem("currentHunt") == this.props.match.params.id ? true : false
+    activeKeywords: false
   };
 
   componentDidMount() {
@@ -35,14 +35,20 @@ class Hunt extends Component {
         if(huntData.data != null && huntData.data.errmsg == null){
           // console.log(huntData.data);
           const { _id, huntName, location, keywords, user } = huntData.data;
+
+          const keywordsObject = {};
+          keywords.forEach(element => {
+            keywordsObject[element] = false;
+          });
+
           this.setState({
             huntId: _id,
             huntName,
             location,
-            keywords,
+            keywords: keywordsObject,
             userName: user.username
           })
-          // console.log(this.state)
+          console.log(this.state.keywords)
         }
       })
       .then (huntData => {
@@ -60,13 +66,21 @@ class Hunt extends Component {
 
                 inProgressHunts.forEach(item => {
                   if (item._id == this.state.huntId) {
-                    const keywords = item.keywords;
+                    // const keywordsArray = item.keywords;
                     // let keys = Object.keys(keywords);
                     // let keys = Object.entries(keywords);
                     // console.log(Object.entries(keywords));
+
                     this.setState({
-                      keywords: Object.entries(keywords)
+                      keywords: item.keywords,
+                      activeKeywords: true
                     })
+                    console.log(this.state.keywords)
+
+
+                    // this.setState({
+                    //   keywords: Object.entries(keywords)
+                    // })
                     // console.log(this.state.keywords);
 
                     // let filtered = keys.filter(function(key) {
@@ -93,38 +107,38 @@ class Hunt extends Component {
           let unique = true;
           if (inProgressHunts.length > 0) {
             inProgressHunts.forEach(item => {
+              // console.log(item._id);
+              // console.log(this.state.huntId);
               if (item._id == this.state.huntId) {
                 unique = false;
-                return;
-              }
-              else {
-                unique = true;
+                // return;
               }
             });
           }
-          console.log(userData.data);
-          console.log(inProgressHunts);
+          // console.log(userData.data);
+          // console.log(inProgressHunts);
 
           if (unique) {
-            const keywords = {};
-            (this.state.keywords).forEach(element => {
-              keywords[element] = false;
-            });
-            console.log(keywords);
+            // const keywords = {};
+            // (this.state.keywords).forEach(element => {
+            //   keywords[element] = false;
+            // });
+            // console.log(keywords);
             let huntData = {
               _id: this.state.huntId,
               huntName: this.state.huntName,
-              keywords: keywords
+              keywords: this.state.keywords
             }
             API.playHunt(this.state.userId, huntData)
               .then(userData => {
                 // console.log(userData.data);
                 if(userData.data != null && userData.data.errmsg == null){
                   console.log(userData.data);
-                  localStorage.setItem("currentHunt", this.state.huntId)
+                  // localStorage.setItem("currentHunt", this.state.huntId)
                   this.setState({
                     activeKeywords: true
                   })
+                  // window.location.reload();
                 }
               })
               .catch(err => console.log(err));
@@ -139,7 +153,7 @@ class Hunt extends Component {
 
   render() {
     const keywords = this.state.keywords;
-    const keywordItems = keywords.map((keyword, index) => {
+    const keywordItems = Object.entries(keywords).map((keyword, index) => {
       const theUrl = `/capture/?keyword=${keyword[0]}&huntId=${this.state.huntId}`;
       if (this.state.activeKeywords) {
         if (keyword[1]) {
