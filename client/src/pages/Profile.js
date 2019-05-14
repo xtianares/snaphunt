@@ -26,7 +26,7 @@ class Profile extends Component {
     console.log("it mounted");
     API.getUser(this.props.match.params.id)
       .then(userData => {
-        
+        console.log(userData)
         if (userData.data != null && userData.data.errmsg == null) {
           console.log(userData.data);
           const { username, completedHunts, inProgressHunts, createdHunts } = userData.data;
@@ -74,40 +74,39 @@ class Profile extends Component {
     return (
       <Container>
         <Row className="justify-content-md-center">
-          <Col md="8" sm="12">
+          <Col md="8" xl="4" sm="12">
             <h1 className="text-center">{this.state.username}</h1>
           </Col>
         </Row>
         <Row className="justify-content-md-center">
-          <Col>
-            <Card>
-              <CardHeader>
-                <h3 className="text-center">Created Hunts</h3>
+          <Col md="8" xl="4" sm="12">
+            <Card className="profile-card">
+              <CardHeader tag="h5" className="text-center">
+                Created Hunts
               </CardHeader>
-                <ul className="list-group list-group-flush">
-                  {created}
-                </ul>
-              
+              <ul className="list-group list-group-flush">
+                {created}
+              </ul>
             </Card>
           </Col>
-          <Col>
-            <Card>
-              <CardHeader>
-                <h3 className="text-center">Completed Hunts</h3>
+          <Col md="8" xl="4" sm="12">
+            <Card className="profile-card">
+              <CardHeader tag="h5" className="text-center">
+                Completed Hunts
               </CardHeader>
-                <ul className="list-group list-group-flush">
-                  {completed}
-                </ul>
+              <ul className="list-group list-group-flush">
+                {completed}
+              </ul>
             </Card>
           </Col>
-          <Col>
-            <Card>
-              <CardHeader>
-                <h3 className="text-center">Hunts In Progress</h3>
+          <Col md="8" xl="4" sm="12">
+            <Card className="profile-card">
+              <CardHeader tag="h5" className="text-center">
+                Hunts In Progress
               </CardHeader>
-                <ul className="list-group list-group-flush">
-                  {inProgress}
-                </ul>
+              <ul className="list-group list-group-flush">
+                {inProgress}
+              </ul>
             </Card>
           </Col>
         </Row>

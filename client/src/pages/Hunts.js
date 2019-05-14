@@ -26,24 +26,74 @@ class Hunt extends Component {
   };
 
   componentDidMount() {
-    console.log(this.state)
+    // console.log(this.state)
     // console.log("it mounted");
     // console.log(this.props.match.params.id);
     API.getHunt(this.props.match.params.id)
       .then(huntData => {
         // console.log(userData.data);
         if(huntData.data != null && huntData.data.errmsg == null){
-          console.log(huntData.data);
+          // console.log(huntData.data);
           const { _id, huntName, location, keywords, user } = huntData.data;
+
+          const keywordsObject = {};
+          keywords.forEach(element => {
+            keywordsObject[element] = false;
+          });
+
           this.setState({
             huntId: _id,
             huntName,
             location,
-            keywords,
+            keywords: keywordsObject,
             userName: user.username
           })
-          console.log(this.state)
+          console.log(this.state.keywords)
         }
+      })
+      .then (huntData => {
+        API.getUser(this.state.userId)
+          .then(userData => {
+            // console.log(userData.data);
+            let {inProgressHunts} = userData.data;
+            if(userData.data != null && userData.data.errmsg == null && inProgressHunts) {
+              // console.log(inProgressHunts);
+              // console.log(this.state.keywords);
+              if (inProgressHunts.length > 0) {
+                // Object.keys(inProgressHunts).map(function(key, index) {
+                //   console.log(inProgressHunts[key]._id === Hunt.state.huntId);
+                // });
+
+                inProgressHunts.forEach(item => {
+                  if (item._id == this.state.huntId) {
+                    // const keywordsArray = item.keywords;
+                    // let keys = Object.keys(keywords);
+                    // let keys = Object.entries(keywords);
+                    // console.log(Object.entries(keywords));
+
+                    this.setState({
+                      keywords: item.keywords,
+                      activeKeywords: true
+                    })
+                    console.log(this.state.keywords)
+
+
+                    // this.setState({
+                    //   keywords: Object.entries(keywords)
+                    // })
+                    // console.log(this.state.keywords);
+
+                    // let filtered = keys.filter(function(key) {
+                    //   return keywords[key]
+                    // });
+                    // console.log(filtered);
+
+                  }
+                })
+              }
+            }
+          })
+          .catch(err => console.log(err));
       })
       .catch(err => console.log(err));
   }
@@ -54,25 +104,26 @@ class Hunt extends Component {
       .then(userData => {
         let {inProgressHunts} = userData.data;
         if(userData.data != null && userData.data.errmsg == null && inProgressHunts) {
-          let unique = false;
-          inProgressHunts.forEach(item => {
-            if (item._id !== this.state.huntId) {
-              unique = true;
-            }
-            else {
-              unique = false;
-              return;
-            }
-          });
-          console.log(userData.data);
-          console.log(inProgressHunts);
+          let unique = true;
+          if (inProgressHunts.length > 0) {
+            inProgressHunts.forEach(item => {
+              // console.log(item._id);
+              // console.log(this.state.huntId);
+              if (item._id == this.state.huntId) {
+                unique = false;
+                // return;
+              }
+            });
+          }
+          // console.log(userData.data);
+          // console.log(inProgressHunts);
 
           if (unique) {
-            const keywords = {};
-            (this.state.keywords).forEach(element => {
-              keywords[element] = false;
-            });
-            console.log(keywords);
+            // const keywords = {};
+            // (this.state.keywords).forEach(element => {
+            //   keywords[element] = false;
+            // });
+            // console.log(keywords);
             let huntData = {
               _id: this.state.huntId,
               huntName: this.state.huntName,
@@ -83,7 +134,11 @@ class Hunt extends Component {
                 // console.log(userData.data);
                 if(userData.data != null && userData.data.errmsg == null){
                   console.log(userData.data);
-                  // const { _id, huntName, location, keywords, user } = userData.data;
+                  // localStorage.setItem("currentHunt", this.state.huntId)
+                  this.setState({
+                    activeKeywords: true
+                  })
+                  // window.location.reload();
                 }
               })
               .catch(err => console.log(err));
@@ -94,23 +149,23 @@ class Hunt extends Component {
         }
     })
     .catch(err => console.log(err));
-
-    // API.playHunt(this.state.userId, huntData)
-    //   .then(userData => {
-    //     // console.log(userData.data);
-    //     if(userData.data != null && userData.data.errmsg == null){
-    //       console.log(userData.data);
-    //       // const { _id, huntName, location, keywords, user } = userData.data;
-    //     }
-    //   })
-    //   .catch(err => console.log(err));
   }
 
   render() {
     const keywords = this.state.keywords;
-    const listItems = keywords.map(keyword => {
-      const theUrl = `/capture/?keyword=${keyword}&huntId=${this.state.huntId}`;
-      return <a key={keyword} className="btn btn-outline-success keyword" href={theUrl}>{keyword}</a>;
+    const keywordItems = Object.entries(keywords).map((keyword, index) => {
+      const theUrl = `/capture/?keyword=${keyword[0]}&huntId=${this.state.huntId}`;
+      if (this.state.activeKeywords) {
+        if (keyword[1]) {
+          return <button key={keyword} className="btn btn-outline-success keyword matched" disabled><i className="material-icons">done</i> {keyword}</button>;
+        }
+        else {
+          return <a key={keyword} className="btn btn-outline-success keyword" href={theUrl}>{keyword}</a>;
+        }
+      }
+      else {
+        return <button key={keyword} className="btn btn-outline-success keyword" disabled>{keyword}</button>;
+      }
     });
 
     return (
@@ -124,11 +179,14 @@ class Hunt extends Component {
               </CardHeader>
               <CardBody>
                 <CardTitle>Match the keywords below to complete the hunt.</CardTitle>
-                {listItems}
+                {keywordItems}
               </CardBody>
-              <CardFooter>
-                <Button onClick={this.playHunt.bind(this)}>Start Hunt</Button> <small className="mt-2 ml-2 text-muted font-weight-lighter font-italic">to activate the buttons above</small>
-              </CardFooter>
+              {
+                this.state.activeKeywords ? null :
+                <CardFooter>
+                  <Button onClick={this.playHunt.bind(this)}>Start Hunt</Button> <small className="mt-2 ml-2 text-muted font-weight-lighter font-italic">to activate the buttons above</small>
+                </CardFooter>
+              }
             </Card>
           </Col>
         </Row>
