@@ -5,7 +5,7 @@ module.exports = {
   findAll: function(req, res) {
     db.Hunt
       .find(req.query)
-      .sort({ date: -1 })
+      .sort({ createdAt: -1 })
       .populate('user', 'username')
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
@@ -22,7 +22,7 @@ module.exports = {
         }
       })
       .limit(10)
-      .sort({ date: -1 })
+      .sort({ createdAt: -1 })
       .populate('user', 'username')
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));

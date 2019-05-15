@@ -11,7 +11,7 @@ module.exports = {
   findAll: function(req, res) {
     db.Snap
       .find(req.query)
-      .sort({ date: -1 })
+      .sort({ createdAt: -1 })
       .populate('user', 'username')
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));

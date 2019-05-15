@@ -5,7 +5,8 @@ import API from "../utils/API";
 
 class Snap extends Component {
   state = {
-    imageUrls:[]
+    imageUrls:[],
+    hasSnaps: false
   };
 
   componentDidMount() {
@@ -14,6 +15,9 @@ class Snap extends Component {
         .then(res =>  {
           let snaps = res.data;
           let imageUrls = [];
+          if (snaps.length) {
+            this.setState({ hasSnaps: true })
+          }
           console.log(res.data);
           for(let i=0; i < snaps.length; i++) {
             imageUrls.push(snaps[i].url)
@@ -28,14 +32,13 @@ class Snap extends Component {
 
   render() {
     const images = this.state.imageUrls.map((item) =>
-        <img src={item} key={item}/>
+      <img src={item} key={item}/>
     )
     return (
-
       <Container>
         <Row className="justify-content-md-center">
           <Col md="8" sm="12">
-            <h1 className="text-center">Snaps, nothing here yet</h1>
+            <h1 className="text-center">{this.state.hasSnaps ? "Uploaded Snaps" :  "Snaps, nothing here yet"}</h1>
           </Col>
         </Row>
         <Row className="justify-content-md-center">
