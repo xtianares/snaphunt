@@ -51,12 +51,12 @@ class Snap extends Component {
   render() {
     const images = this.state.snaps.map((item) => {
       return (
-          <Card className="card">
-            <CardImg top width="100%" src={item.url} alt="Card image cap" />
-            <CardBody className="card-body">
-              <CardText>{item.username}</CardText>
-            </CardBody>
-          </Card>
+        <Card>
+          <CardImg top width="100%" src={item.url} alt="Card image cap" />
+          <CardBody>
+            <CardText>{item.username}</CardText>
+          </CardBody>
+        </Card>
       )
     }
     )
