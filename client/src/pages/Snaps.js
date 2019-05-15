@@ -54,7 +54,7 @@ class Snap extends Component {
           <Card className="card">
             <CardImg top width="100%" src={item.url} alt="Card image cap" />
             <CardBody className="card-body">
-              <CardText>Jason</CardText>
+              <CardText>{item.username}</CardText>
             </CardBody>
           </Card>
       )
