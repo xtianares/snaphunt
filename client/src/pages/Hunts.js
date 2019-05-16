@@ -77,7 +77,6 @@ class Hunt extends Component {
                     })
                     console.log(this.state.keywords)
 
-
                     // this.setState({
                     //   keywords: Object.entries(keywords)
                     // })
@@ -87,7 +86,6 @@ class Hunt extends Component {
                     //   return keywords[key]
                     // });
                     // console.log(filtered);
-
                   }
                 })
               }

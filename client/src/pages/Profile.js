@@ -31,27 +31,27 @@ class Profile extends Component {
           console.log(userData.data);
           const { username, completedHunts, inProgressHunts, createdHunts } = userData.data;
 
-          let createdHuntsName = [];
-          let completedHuntsName = [];
-          let inProgressHuntsName =[];
-
-        for (let i = 0; i < createdHunts.length; i++) {
-          createdHuntsName.push(createdHunts[i].huntName);
-        };
-
-        for (let i = 0; i < completedHunts.length; i++) {
-          completedHuntsName.push(completedHunts[i].huntName);
-        };
-
-        for (let i = 0; i < inProgressHunts.length; i++) {
-          inProgressHuntsName.push(inProgressHunts[i].huntName);
-        };
+          // let createdHuntsName = [];
+          // let completedHuntsName = [];
+          // let inProgressHuntsName =[];
+          //
+          // for (let i = 0; i < createdHunts.length; i++) {
+          //   createdHuntsName.push(createdHunts[i].huntName);
+          // };
+          //
+          // for (let i = 0; i < completedHunts.length; i++) {
+          //   completedHuntsName.push(completedHunts[i].huntName);
+          // };
+          //
+          // for (let i = 0; i < inProgressHunts.length; i++) {
+          //   inProgressHuntsName.push(inProgressHunts[i].huntName);
+          // };
 
           this.setState({
             username,
-            completedHunts: completedHuntsName,
-            inProgressHunts: inProgressHuntsName,
-            createdHunts: createdHuntsName
+            completedHunts,
+            inProgressHunts,
+            createdHunts
           });
         }
       })
@@ -59,29 +59,29 @@ class Profile extends Component {
   }
 
   render() {
-    const created = this.state.createdHunts.map((create) => {
-      return <li className="list-group-item">{create}</li>
+    const created = this.state.createdHunts.map((createdHunt) => {
+      return <a key={createdHunt._id} href={`/hunt/${createdHunt._id}`} className="list-group-item list-group-item-action">{createdHunt.huntName}</a>
     });
 
-    const completed = this.state.completedHunts.map((complete) => {
-      return <li className="list-group-item">{complete}</li>
+    const completed = this.state.completedHunts.map((completedHunt) => {
+      return <a key={completedHunt._id} href={`/hunt/${completedHunt._id}`} className="list-group-item list-group-item-action">{completedHunt.huntName}</a>
     });
 
-    const inProgress = this.state.inProgressHunts.map((progress) => {
-      return <li className="list-group-item">{progress}</li>
+    const inProgress = this.state.inProgressHunts.map((inProgressHunt) => {
+      return <a key={inProgressHunt._id} href={`/hunt/${inProgressHunt._id}`} className="list-group-item list-group-item-action">{inProgressHunt.huntName}</a>
     })
 
     return (
       <Container>
         <Row className="justify-content-md-center">
-          <Col md="8" xl="4" sm="12">
-            <h1 className="text-center">{this.state.username}</h1>
+          <Col sm="12" md="8" xl="12">
+            <h1 className="mb-4">{this.state.username}, here's your current stats.</h1>
           </Col>
         </Row>
         <Row className="justify-content-md-center">
           <Col md="8" xl="4" sm="12">
             <Card className="profile-card">
-              <CardHeader tag="h5" className="text-center">
+              <CardHeader tag="h5">
                 Created Hunts
               </CardHeader>
               <ul className="list-group list-group-flush">
@@ -91,7 +91,7 @@ class Profile extends Component {
           </Col>
           <Col md="8" xl="4" sm="12">
             <Card className="profile-card">
-              <CardHeader tag="h5" className="text-center">
+              <CardHeader tag="h5">
                 Completed Hunts
               </CardHeader>
               <ul className="list-group list-group-flush">
@@ -101,8 +101,8 @@ class Profile extends Component {
           </Col>
           <Col md="8" xl="4" sm="12">
             <Card className="profile-card">
-              <CardHeader tag="h5" className="text-center">
-                Hunts In Progress
+              <CardHeader tag="h5">
+                In Progress Hunts
               </CardHeader>
               <ul className="list-group list-group-flush">
                 {inProgress}

@@ -94,6 +94,38 @@ class Capture extends Component {
         this.setState({
           keywordMatched: true
         });
+
+        API.getUser(this.state.userId)
+          .then(userData => {
+            let {inProgressHunts} = userData.data;
+            if(userData.data != null && userData.data.errmsg == null && inProgressHunts) {
+              let unique = true;
+              if (inProgressHunts.length > 0) {
+                inProgressHunts.forEach(item => {
+                  // console.log(item._id);
+                  // console.log(this.state.huntId);
+                  if (item._id == this.state.huntId) {
+                    let values = Object.values(item.keywords)
+                    // console.log(values)
+                    if (values.indexOf(false) <= -1) {
+                      console.log("Hunt completed");
+                      // { $push: { scores: 89 }
+                      API.updateUser(this.state.userId, { $push: { completedHunts: item._id }})
+                        .then(userData => {
+                          console.log(userData);
+                        })
+                    }
+                    else {
+                      console.log("Hunt not complete");
+                    }
+                    return;
+                  }
+                });
+              }
+            }
+        })
+        .catch(err => console.log(err));
+
       }
       else if (snapData.data.err) {
         console.log(snapData.data.err)
