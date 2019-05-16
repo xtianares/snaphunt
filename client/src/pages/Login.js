@@ -54,6 +54,7 @@ class Login extends Component {
           if(userData.data != null){
             this.login(userData.data);
             this.checkLogin();
+            window.location.reload();
           }
           // if user does not exist
           else {

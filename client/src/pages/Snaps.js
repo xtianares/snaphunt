@@ -51,15 +51,14 @@ class Snap extends Component {
   render() {
     const images = this.state.snaps.map((item) => {
       return (
-        <Card>
+        <Card key={item._id}>
           <CardImg top width="100%" src={item.url} alt="Card image cap" />
           <CardBody>
-            <CardText>{item.username}</CardText>
+            <CardText>Snapped by: {item.user.username}</CardText>
           </CardBody>
         </Card>
       )
-    }
-    )
+    })
     return (
       <Container>
         <Row className="justify-content-md-center">
@@ -67,8 +66,8 @@ class Snap extends Component {
             <h1 className="text-center">{this.state.hasSnaps ? "Uploaded Snaps" : "Oh Snap, nothing here yet"}</h1>
           </Col>
         </Row>
-        <Row className="justify-content-md-center">
-          <CardDeck sm="12"  >
+        <Row className="row d-flex justify-content-center align-items-center">
+          <CardDeck sm="12">
             {images}
           </CardDeck>
         </Row>

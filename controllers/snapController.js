@@ -53,8 +53,8 @@ module.exports = {
               snapData = {
                 url: imageUrl,
                 location: location,
-                userId: userId,
-                huntId: huntId
+                user: userId,
+                hunt: huntId
               };
             // console.log(concepts);
             concepts.forEach(function (item) {
