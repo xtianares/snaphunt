@@ -99,28 +99,23 @@ class Capture extends Component {
           .then(userData => {
             let {inProgressHunts} = userData.data;
             if(userData.data != null && userData.data.errmsg == null && inProgressHunts) {
-              let unique = true;
               if (inProgressHunts.length > 0) {
-                inProgressHunts.forEach(item => {
-                  // console.log(item._id);
-                  // console.log(this.state.huntId);
-                  if (item._id == this.state.huntId) {
-                    let values = Object.values(item.keywords)
-                    // console.log(values)
-                    if (values.indexOf(false) <= -1) {
-                      console.log("Hunt completed");
-                      // { $push: { scores: 89 }
-                      API.updateUser(this.state.userId, { $push: { completedHunts: item._id }})
-                        .then(userData => {
-                          console.log(userData);
-                        })
-                    }
-                    else {
-                      console.log("Hunt not complete");
-                    }
-                    return;
-                  }
-                });
+                // need to get the index and modify it
+                let theIndex = inProgressHunts.findIndex(item => item._id == this.state.huntId);
+                console.log(theIndex);
+                let values = Object.values(inProgressHunts[theIndex].keywords)
+                if (values.indexOf(false) < 0) {
+                  console.log("Hunt completed");
+                  inProgressHunts.splice(theIndex, 1);
+                  // add current hunt to completedHunts and remove from inProgressHunts
+                  API.updateUser(this.state.userId, { $push: { completedHunts: this.state.huntId }, inProgressHunts: inProgressHunts})
+                    .then(userData => {
+                      console.log(userData);
+                    })
+                }
+                else {
+                  console.log("Hunt not complete");
+                }
               }
             }
         })

@@ -31,6 +31,14 @@ module.exports = {
   },
   create: function (req, res) {
     const { imageData, location, userId, huntId, keyword } = req.body;
+    // ClarifaiApp.models.initModel({ id: Clarifai.GENERAL_MODEL, version: "aa7f35c01e0642fda5cf400f543e7c40" })
+    //   .then(generalModel => {
+    //     return generalModel.predict(imageData.replace('data:image/jpeg;base64,', ''), { maxConcepts: 15 });
+    //   })
+    //   .then(response => {
+    //     let concepts = response['outputs'][0]['data']['concepts']
+    //     console.log(concepts);
+    //   })
     // console.log(req.body);
     ClarifaiApp.inputs.create({
       base64: imageData.replace('data:image/jpeg;base64,', ''), // needed to remove modify the base64 code
@@ -45,7 +53,7 @@ module.exports = {
         // console.log(imageUrl);
         ClarifaiApp.models.initModel({ id: Clarifai.GENERAL_MODEL, version: "aa7f35c01e0642fda5cf400f543e7c40" })
           .then(generalModel => {
-            return generalModel.predict(imageUrl, { maxConcepts: 15 });
+            return generalModel.predict(imageData.replace('data:image/jpeg;base64,', ''), { maxConcepts: 15 });
           })
           .then(response => {
             let concepts = response['outputs'][0]['data']['concepts'],
