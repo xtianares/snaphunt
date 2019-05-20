@@ -108,7 +108,16 @@ class Capture extends Component {
                   console.log("Hunt completed");
                   inProgressHunts.splice(theIndex, 1);
                   // add current hunt to completedHunts and remove from inProgressHunts
-                  API.updateUser(this.state.userId, { $push: { completedHunts: this.state.huntId }, inProgressHunts: inProgressHunts})
+                  API.updateUser(this.state.userId, {
+                      $push: {
+                        completedHunts: {
+                          $each: [this.state.huntId],
+                          $position: 0
+                        }
+                      },
+                      inProgressHunts: inProgressHunts
+                    }
+                  )
                     .then(userData => {
                       console.log(userData);
                     })
