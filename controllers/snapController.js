@@ -31,6 +31,19 @@ module.exports = {
   },
   create: function (req, res) {
     const { imageData, location, userId, huntId, keyword } = req.body;
+    // ClarifaiApp.models.initModel({ id: Clarifai.GENERAL_MODEL, version: "aa7f35c01e0642fda5cf400f543e7c40" })
+    //   .then(generalModel => {
+    //     return generalModel.predict(imageData.replace('data:image/jpeg;base64,', ''), { maxConcepts: 15 });
+    //   })
+    //   .then(response => {
+    //     let concepts = response['outputs'][0]['data']['concepts'],
+    //       tags = [];
+    //     concepts.forEach(function (item) {
+    //       tags.push((item.name).toLowerCase())
+    //     });
+    //     console.log(tags);
+    //     console.log('Tag matched? ' + tags.indexOf(keyword.toLowerCase()));
+    //   })
     // console.log(req.body);
     ClarifaiApp.inputs.create({
       base64: imageData.replace('data:image/jpeg;base64,', ''), // needed to remove modify the base64 code
@@ -66,45 +79,6 @@ module.exports = {
             // at the same time it it matcher modify the user's inProgressHunts
             console.log('Tag matched? ' + tags.indexOf(keyword.toLowerCase()));
             if (tags.indexOf(keyword.toLowerCase()) >= 0) {
-              // if (true) {
-              // db.User.findById(userId)
-              // .then(userData => {
-              //   // console.log(userData);
-              //   let {inProgressHunts} = userData;
-              //   // console.log(inProgressHunts[0]);
-              //   let huntData = {};
-              //   inProgressHunts.forEach(element => {
-              //     // console.log(element._id);
-              //     // console.log(huntId);
-              //     if (element._id == huntId) {
-              //       console.log("This is it: " + element._id);
-              //       console.log(element.keywords);
-              //       // set the matched keyword to true...
-              //       element.keywords[keyword] = true;
-              //       huntData = {
-              //         _id: huntId,
-              //         huntName: element.huntName,
-              //         keywords: element.keywords
-              //         // keywords: {
-              //         //   "pen": true,
-              //         //   "laptop": false,
-              //         //   "bag": false
-              //         // }
-              //       }
-              //     }
-              //   })
-              //
-              //   db.User.findOneAndUpdate({ _id: userId, "inProgressHunts._id": huntId }, {$set: {"inProgressHunts.$.keywords": huntData.keywords}}, { new: true })
-              //     .then(userData2 => {
-              //       // console.log(userData.data);
-              //       if(userData2.data != null && userData2.data.errmsg == null){
-              //         console.log(userData2.data);
-              //         // const { _id, huntName, location, keywords, user } = userData.data;
-              //       }
-              //     })
-              //     .catch(err => console.log(err));
-              // })
-
               snapData.tags = tags;
               // this will need to be inside the clarifai .then statement
               db.Snap.create(snapData) // will need to be an object
@@ -131,11 +105,6 @@ module.exports = {
                                 _id: huntId,
                                 huntName: element.huntName,
                                 keywords: element.keywords
-                                // keywords: {
-                                //   "pen": true,
-                                //   "laptop": false,
-                                //   "bag": false
-                                // }
                               }
                             }
                           })

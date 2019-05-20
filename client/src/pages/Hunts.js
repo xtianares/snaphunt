@@ -55,40 +55,61 @@ class Hunt extends Component {
         API.getUser(this.state.userId)
           .then(userData => {
             // console.log(userData.data);
-            let {inProgressHunts} = userData.data;
-            if(userData.data != null && userData.data.errmsg == null && inProgressHunts) {
+            let {completedHunts, inProgressHunts} = userData.data;
+            if(userData.data != null && userData.data.errmsg == null) {
+              let inProgressHuntIndex = inProgressHunts.findIndex(item => item._id == this.state.huntId);
+              if (inProgressHunts && inProgressHuntIndex > -1){
+                let theIndex = inProgressHunts.findIndex(item => item._id == this.state.huntId);
+                this.setState({
+                  keywords: inProgressHunts[inProgressHuntIndex].keywords,
+                  activeKeywords: true
+                })
+                console.log(this.state.keywords)
+              }
+              let completedHuntsIndex = completedHunts.findIndex(item => item._id == this.state.huntId);
+              if (completedHunts && completedHuntsIndex > -1){
+                const keywordsObject = {};
+                (completedHunts[completedHuntsIndex].keywords).forEach(element => {
+                  keywordsObject[element] = true;
+                });
+                this.setState({
+                  keywords: keywordsObject,
+                  activeKeywords: true
+                })
+                console.log(this.state.keywords)
+              }
               // console.log(inProgressHunts);
               // console.log(this.state.keywords);
-              if (inProgressHunts.length > 0) {
-                // Object.keys(inProgressHunts).map(function(key, index) {
-                //   console.log(inProgressHunts[key]._id === Hunt.state.huntId);
-                // });
-
-                inProgressHunts.forEach(item => {
-                  if (item._id == this.state.huntId) {
-                    // const keywordsArray = item.keywords;
-                    // let keys = Object.keys(keywords);
-                    // let keys = Object.entries(keywords);
-                    // console.log(Object.entries(keywords));
-
-                    this.setState({
-                      keywords: item.keywords,
-                      activeKeywords: true
-                    })
-                    console.log(this.state.keywords)
-
-                    // this.setState({
-                    //   keywords: Object.entries(keywords)
-                    // })
-                    // console.log(this.state.keywords);
-
-                    // let filtered = keys.filter(function(key) {
-                    //   return keywords[key]
-                    // });
-                    // console.log(filtered);
-                  }
-                })
-              }
+              // if (inProgressHunts.length > 0) {
+              //   // Object.keys(inProgressHunts).map(function(key, index) {
+              //   //   console.log(inProgressHunts[key]._id === Hunt.state.huntId);
+              //   // });
+              //
+              //   inProgressHunts.forEach(item => {
+              //     if (item._id == this.state.huntId) {
+              //       // const keywordsArray = item.keywords;
+              //       // let keys = Object.keys(keywords);
+              //       // let keys = Object.entries(keywords);
+              //       // console.log(Object.entries(keywords));
+              //
+              //       this.setState({
+              //         keywords: item.keywords,
+              //         activeKeywords: true
+              //       })
+              //       console.log(this.state.keywords)
+              //
+              //       // this.setState({
+              //       //   keywords: Object.entries(keywords)
+              //       // })
+              //       // console.log(this.state.keywords);
+              //
+              //       // let filtered = keys.filter(function(key) {
+              //       //   return keywords[key]
+              //       // });
+              //       // console.log(filtered);
+              //     }
+              //   })
+              // }
             }
           })
           .catch(err => console.log(err));
