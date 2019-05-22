@@ -88,7 +88,7 @@ class Login extends Component {
                 <Button type="submit">Login</Button>
               </FormGroup>
               <FormGroup className="sign-up text-center">
-                Don't yet have an account? <a href="/signup/">Sign up here!</a>
+                Don't have an account? <a href="/signup/">Sign up here!</a>
               </FormGroup>
             </Form>
           </Col>
