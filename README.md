@@ -1,5 +1,5 @@
 # SnapHunt
-A geolocation photo scavenger hunt game. 
+A location-based photo scavenger hunt game. 
 
 Players start by looking for "hunts" in their current location on the map. Once they have selected a hunt, he/she must select one of the keywords of that particular hunt and take a picture to match the keyword, once all keywords has been matched the hunt is completed and added to the player's stats.
 
